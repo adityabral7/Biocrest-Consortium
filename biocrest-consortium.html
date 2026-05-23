@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="BioCrest Consortium — Nepal-rooted youth-led initiative advancing biotechnology, public health, scientific literacy, and global health innovation.">
+<meta name="keywords" content="BioCrest, Consortium, Nepal, Biotechnology, Public Health, Research, Scientific Literacy">
+<meta property="og:title" content="BioCrest Consortium">
+<meta property="og:description" content="Advancing Biotechnology, Public Health, and Scientific Literacy Through Youth-Led Innovation.">
+<title>BioCrest Consortium — Advancing Science from Nepal to the World</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Manrope:wght@200;300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ════════════════════════════════════════════
+   DESIGN TOKENS — BIOCREST CONSORTIUM
+   Deep Forest Green × Himalayan Gold × Ivory
+════════════════════════════════════════════ */
+:root {
+  --forest:     #0E3B2E;
+  --forest-deep:#091f19;
+  --forest-mid: #174d3c;
+  --forest-lite:#2d7a5e;
+  --gold:       #C6A15B;
+  --gold-light: #dfc185;
+  --gold-pale:  #f0e3c4;
+  --ivory:      #FAF9F6;
+  --ivory-warm: #F2EFE8;
+  --teal:       #1E6F78;
+  --bronze:     #9F7B4F;
+  --slate:      #5C6770;
+  --slate-light:#8a9299;
+  --text:       #1a1e1b;
+  --text-mid:   #3d4440;
+  --white:      #ffffff;
+  --error:      #b5331f;
+  --success:    #1a6b3c;
+
+  --ff-serif: 'Cormorant Garamond', Georgia, serif;
+  --ff-sans:  'Manrope', system-ui, sans-serif;
+  --ff-mono:  'DM Mono', monospace;
+
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:   cubic-bezier(0.7, 0, 0.84, 0);
+  --transition: 0.35s var(--ease-out);
+}
+
+/* ════ RESET ════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--ff-sans);
+  background: var(--ivory);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: none;
+}
+img { display:block; max-width:100%; }
+a { text-decoration:none; color:inherit; }
+button { font-family: inherit; cursor:none; }
+input, textarea, select { font-family: inherit; }
+
+/* ════ CUSTOM CURSOR ════ */
+#cursor-ring {
+  position:fixed; top:0; left:0; pointer-events:none; z-index:99999;
+  width:32px; height:32px;
+  border:1.5px solid var(--gold);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:width 0.3s var(--ease-out), height 0.3s var(--ease-out), border-color 0.3s, background 0.3s;
+  mix-blend-mode:normal;
+}
+#cursor-dot {
+  position:fixed; top:0; left:0; pointer-events:none; z-index:99999;
+  width:5px; height:5px;
+  background:var(--gold);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:transform 0.1s;
+}
+body.cursor-hover #cursor-ring { width:54px; height:54px; background:rgba(198,161,91,0.08); border-color:var(--gold-light); }
+body.cursor-dark #cursor-ring { border-color:var(--gold); }
+
+/* ════ LOADING SCREEN ════ */
+#loader {
+  position:fixed; inset:0; z-index:99000;
+  background:var(--forest-deep);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  transition:opacity 0.8s var(--ease-out), visibility 0.8s;
+}
+#loader.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+.loader-logo {
+  font-family: var(--ff-serif);
+  font-size: 48px;
+  font-weight: 600;
+  color: var(--ivory);
+  letter-spacing: 0.04em;
+  opacity:0;
+  animation: loaderReveal 1.2s var(--ease-out) 0.3s forwards;
+}
+.loader-logo span { color:var(--gold); font-style:italic; }
+.loader-line {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin-top: 1.5rem;
+  animation: loaderLine 1.4s var(--ease-out) 0.5s forwards;
+}
+.loader-sub {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity:0;
+  margin-top: 1rem;
+  animation: loaderReveal 1s var(--ease-out) 1s forwards;
+}
+@keyframes loaderReveal { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+@keyframes loaderLine { from{width:0} to{width:200px} }
+
+/* ════ NAV ════ */
+#navbar {
+  position:fixed; top:0; left:0; right:0; z-index:5000;
+  height:72px;
+  padding:0 3.5rem;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(9,31,25,0.92);
+  backdrop-filter:blur(16px) saturate(1.4);
+  border-bottom:1px solid rgba(198,161,91,0.18);
+  transition:all 0.4s var(--ease-out);
+}
+#navbar.scrolled {
+  height:60px;
+  background:rgba(9,31,25,0.98);
+  border-bottom-color:rgba(198,161,91,0.28);
+}
+.nav-brand {
+  display:flex; align-items:center; gap:12px; cursor:none;
+}
+.nav-brand-mark {
+  width:38px; height:38px;
+  border:1.5px solid var(--gold);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--ff-serif); font-size:16px; font-weight:700;
+  color:var(--gold); letter-spacing:0.04em;
+  transition:all var(--transition);
+}
+.nav-brand:hover .nav-brand-mark { background:var(--gold); color:var(--forest-deep); }
+.nav-brand-name {
+  font-family:var(--ff-serif); font-size:19px; font-weight:600;
+  color:var(--ivory); letter-spacing:0.03em;
+}
+.nav-brand-name em { color:var(--gold); font-style:normal; }
+.nav-links {
+  display:flex; align-items:center; gap:0.25rem; list-style:none;
+}
+.nav-links a {
+  font-size:12.5px; font-weight:500; letter-spacing:0.09em;
+  text-transform:uppercase; color:rgba(255,255,255,0.65);
+  padding:8px 14px; border-radius:2px;
+  transition:color 0.25s, background 0.25s;
+  cursor:none;
+}
+.nav-links a:hover, .nav-links a.active { color:var(--gold); }
+.nav-cta {
+  background:var(--gold); color:var(--forest-deep);
+  padding:9px 22px; border-radius:2px;
+  font-size:12px; font-weight:700; letter-spacing:0.1em;
+  text-transform:uppercase; border:none;
+  transition:all var(--transition);
+  cursor:none;
+}
+.nav-cta:hover { background:var(--gold-light); transform:translateY(-1px); }
+.nav-menu-btn {
+  display:none; background:none; border:none;
+  flex-direction:column; gap:5px; padding:4px;
+}
+.nav-menu-btn span {
+  display:block; width:22px; height:1.5px; background:var(--ivory);
+  transition:all 0.3s;
+}
+
+/* ════ PAGES ════ */
+.page { display:none; min-height:100vh; }
+.page.active { display:block; }
+
+/* ════ HOME — HERO ════ */
+.hero {
+  position:relative; min-height:100vh;
+  background:var(--forest-deep);
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; padding-top:72px;
+}
+#dna-canvas {
+  position:absolute; inset:0; width:100%; height:100%;
+  opacity:0.55;
+}
+.hero-mountain {
+  position:absolute; bottom:0; left:0; right:0;
+  height:220px; opacity:0.06;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 220'%3E%3Cpolygon points='0,220 180,60 320,140 480,20 640,120 760,40 900,130 1080,30 1200,100 1440,0 1440,220' fill='%23C6A15B'/%3E%3C/svg%3E") center bottom / cover no-repeat;
+}
+.hero-grid {
+  position:absolute; inset:0;
+  background-image:linear-gradient(rgba(198,161,91,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(198,161,91,0.04) 1px, transparent 1px);
+  background-size:80px 80px;
+}
+.hero-content {
+  position:relative; z-index:2;
+  text-align:center; max-width:860px; padding:0 2rem;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  border:1px solid rgba(198,161,91,0.4);
+  padding:6px 18px; border-radius:2px;
+  font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:2.5rem;
+  animation: fadeUp 1s var(--ease-out) 1.4s both;
+}
+.hero-badge::before {
+  content:''; width:6px; height:6px; background:var(--gold);
+  border-radius:50%; animation:pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+.hero h1 {
+  font-family:var(--ff-serif);
+  font-size:clamp(38px,5.5vw,72px);
+  font-weight:500; color:var(--ivory);
+  line-height:1.08; letter-spacing:-0.01em;
+  margin-bottom:1.5rem;
+  animation: fadeUp 1s var(--ease-out) 1.6s both;
+}
+.hero h1 em { color:var(--gold); font-style:italic; font-weight:400; }
+.hero-sub {
+  font-size:clamp(14px,1.5vw,17px);
+  color:rgba(250,249,246,0.6);
+  line-height:1.8; max-width:580px; margin:0 auto 3rem;
+  font-weight:300; letter-spacing:0.03em;
+  animation: fadeUp 1s var(--ease-out) 1.8s both;
+}
+.hero-sub strong { color:var(--gold-pale); font-weight:400; }
+.hero-btns {
+  display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;
+  animation: fadeUp 1s var(--ease-out) 2s both;
+}
+.btn-gold {
+  background:var(--gold); color:var(--forest-deep);
+  padding:14px 34px; border:none; border-radius:2px;
+  font-size:13px; font-weight:700; letter-spacing:0.1em;
+  text-transform:uppercase; cursor:none;
+  transition:all var(--transition);
+}
+.btn-gold:hover { background:var(--gold-light); transform:translateY(-2px); box-shadow:0 12px 40px rgba(198,161,91,0.25); }
+.btn-ghost {
+  background:transparent; color:var(--ivory);
+  padding:13px 34px; border:1px solid rgba(255,255,255,0.25); border-radius:2px;
+  font-size:13px; font-weight:500; letter-spacing:0.1em;
+  text-transform:uppercase; cursor:none;
+  transition:all var(--transition);
+}
+.btn-ghost:hover { border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
+.btn-teal {
+  background:var(--teal); color:var(--ivory);
+  padding:13px 28px; border:none; border-radius:2px;
+  font-size:13px; font-weight:600; letter-spacing:0.08em;
+  text-transform:uppercase; cursor:none;
+  display:flex; align-items:center; gap:8px;
+  transition:all var(--transition);
+}
+.btn-teal:hover { background:#24848e; transform:translateY(-2px); }
+.hero-scroll {
+  position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  animation: fadeUp 1s var(--ease-out) 2.4s both; cursor:none;
+}
+.hero-scroll span { font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.35); }
+.scroll-line { width:1px; height:40px; background:linear-gradient(to bottom, var(--gold), transparent); animation:scrollLine 2s infinite; }
+@keyframes scrollLine { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
+
+/* ════ STATS STRIP ════ */
+.stats-strip {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  background:var(--forest);
+  border-top:1px solid rgba(198,161,91,0.2);
+}
+.stat-item {
+  padding:2.5rem 2rem; text-align:center;
+  border-right:1px solid rgba(198,161,91,0.12);
+  position:relative; overflow:hidden;
+  transition:background 0.3s;
+}
+.stat-item:hover { background:rgba(198,161,91,0.05); }
+.stat-item:last-child { border-right:none; }
+.stat-num {
+  font-family:var(--ff-serif); font-size:52px; font-weight:600;
+  color:var(--ivory); display:block; line-height:1;
+}
+.stat-num span { color:var(--gold); }
+.stat-label {
+  font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--gold); margin-top:8px; display:block;
+}
+
+/* ════ SECTIONS ════ */
+.section { padding:7rem 3.5rem; max-width:1200px; margin:0 auto; }
+.section-full { padding:7rem 3.5rem; }
+.sec-tag {
+  font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--gold); font-weight:600; display:block; margin-bottom:0.75rem;
+}
+.sec-title {
+  font-family:var(--ff-serif); font-size:clamp(34px,4vw,54px);
+  font-weight:500; color:var(--forest); line-height:1.1;
+  margin-bottom:1.25rem; letter-spacing:-0.01em;
+}
+.sec-title em { font-style:italic; color:var(--teal); }
+.sec-sub {
+  font-size:16px; color:var(--slate);
+  line-height:1.85; max-width:600px; font-weight:300;
+}
+.divider { width:56px; height:2px; background:var(--gold); margin:1.5rem 0; }
+
+/* ════ PILLAR CARDS ════ */
+.pillars-grid {
+  display:grid; grid-template-columns:repeat(5,1fr);
+  gap:2px; background:rgba(14,59,46,0.08); margin-top:4rem;
+}
+.pillar-card {
+  background:var(--ivory); padding:2.75rem 2rem;
+  cursor:none; transition:all 0.3s var(--ease-out);
+  position:relative; overflow:hidden;
+  border-bottom:3px solid transparent;
+}
+.pillar-card::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg, var(--forest), var(--teal));
+  opacity:0; transition:opacity 0.35s var(--ease-out);
+}
+.pillar-card:hover { border-bottom-color:var(--gold); }
+.pillar-card:hover::before { opacity:1; }
+.pillar-card:hover .pc-icon, .pillar-card:hover .pc-title, .pillar-card:hover .pc-desc, .pillar-card:hover .pc-arrow {
+  color:var(--ivory);
+}
+.pc-icon {
+  font-size:32px; margin-bottom:1.5rem; display:block;
+  position:relative; z-index:1; transition:color 0.35s;
+}
+.pc-title {
+  font-family:var(--ff-serif); font-size:20px; font-weight:600;
+  color:var(--forest); margin-bottom:0.75rem; line-height:1.3;
+  position:relative; z-index:1; transition:color 0.35s;
+}
+.pc-desc {
+  font-size:13.5px; color:var(--slate); line-height:1.75;
+  position:relative; z-index:1; transition:color 0.35s;
+}
+.pc-arrow {
+  display:block; margin-top:1.5rem; font-size:18px;
+  color:var(--gold); opacity:0; transform:translateX(-8px);
+  transition:all 0.35s var(--ease-out); position:relative; z-index:1;
+}
+.pillar-card:hover .pc-arrow { opacity:1; transform:none; color:var(--gold-light); }
+
+/* ════ FEATURED INSIGHTS ════ */
+.insights-grid {
+  display:grid; grid-template-columns:1.4fr 1fr 1fr;
+  gap:2px; background:rgba(92,103,112,0.12); margin-top:4rem;
+}
+.insight-card {
+  background:var(--ivory); cursor:none;
+  transition:background 0.3s; overflow:hidden;
+}
+.insight-card:hover { background:var(--ivory-warm); }
+.insight-img {
+  height:200px; background:var(--forest);
+  display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden;
+}
+.insight-img.large { height:320px; }
+.insight-img-pattern {
+  position:absolute; inset:0;
+  background-image:repeating-linear-gradient(45deg, rgba(198,161,91,0.06) 0, rgba(198,161,91,0.06) 1px, transparent 1px, transparent 50%);
+  background-size:20px 20px;
+}
+.insight-body { padding:2rem; }
+.insight-cat {
+  font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+  color:var(--gold); font-weight:600; margin-bottom:0.6rem;
+}
+.insight-title {
+  font-family:var(--ff-serif); font-size:22px; font-weight:500;
+  color:var(--forest); line-height:1.35; margin-bottom:0.6rem;
+}
+.insight-card:first-child .insight-title { font-size:27px; }
+.insight-excerpt { font-size:13.5px; color:var(--slate); line-height:1.75; }
+.insight-date { font-size:12px; color:var(--slate-light); margin-top:1rem; }
+
+/* ════ PAGE SUB-HERO ════ */
+.sub-hero {
+  background:var(--forest); padding:6rem 3.5rem; text-align:center;
+  position:relative; overflow:hidden;
+}
+.sub-hero-grid {
+  position:absolute; inset:0;
+  background-image:linear-gradient(rgba(198,161,91,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(198,161,91,0.04) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+.sub-hero-mountain {
+  position:absolute; bottom:0; left:0; right:0; height:100px; opacity:0.05;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpolygon points='0,100 200,20 350,60 550,5 700,45 850,15 1050,55 1200,10 1440,40 1440,100' fill='%23C6A15B'/%3E%3C/svg%3E") center bottom/cover no-repeat;
+}
+.sub-hero .badge {
+  display:inline-block; font-size:10px; letter-spacing:0.18em;
+  text-transform:uppercase; color:var(--gold);
+  border:1px solid rgba(198,161,91,0.35); padding:5px 16px;
+  border-radius:2px; margin-bottom:1.25rem; position:relative; z-index:1;
+}
+.sub-hero h1 {
+  font-family:var(--ff-serif); font-size:clamp(38px,5vw,64px);
+  font-weight:500; color:var(--ivory); margin-bottom:1rem;
+  position:relative; z-index:1; line-height:1.1;
+}
+.sub-hero p {
+  color:rgba(250,249,246,0.6); font-size:16px; max-width:560px;
+  margin:0 auto; line-height:1.8; font-weight:300;
+  position:relative; z-index:1;
+}
+
+/* ════ ABOUT ════ */
+.about-layout { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
+.quote-block {
+  border-left:3px solid var(--gold); padding-left:2rem; margin:2.5rem 0;
+}
+.quote-block p {
+  font-family:var(--ff-serif); font-size:22px; font-style:italic;
+  color:var(--forest); line-height:1.6; font-weight:400;
+}
+.quote-block cite {
+  font-size:12px; letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--gold); font-style:normal; display:block; margin-top:0.75rem; font-weight:600;
+}
+.timeline-v {
+  position:relative; padding-left:2.5rem;
+  border-left:1px solid rgba(198,161,91,0.3);
+}
+.tl-v-item { position:relative; padding-bottom:3rem; }
+.tl-v-dot {
+  position:absolute; left:-2.5rem; top:4px;
+  width:12px; height:12px; background:var(--gold);
+  border-radius:50%; border:3px solid var(--ivory);
+  box-shadow:0 0 0 1px var(--gold);
+  transform:translateX(-5px);
+}
+.tl-v-year { font-size:11px; color:var(--gold); letter-spacing:0.1em; font-weight:600; margin-bottom:4px; }
+.tl-v-title { font-family:var(--ff-serif); font-size:21px; color:var(--forest); font-weight:500; margin-bottom:6px; }
+.tl-v-text { font-size:14px; color:var(--slate); line-height:1.8; }
+
+/* ════ RESEARCH CARDS ════ */
+.research-grid {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:2px; background:rgba(14,59,46,0.08);
+}
+.r-card {
+  background:var(--ivory); padding:2.5rem 2rem;
+  cursor:none; transition:all 0.3s; position:relative; overflow:hidden;
+}
+.r-card::after {
+  content:''; position:absolute; bottom:0; left:0; right:0;
+  height:2px; background:var(--gold);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform 0.4s var(--ease-out);
+}
+.r-card:hover { background:var(--forest); }
+.r-card:hover::after { transform:scaleX(1); }
+.r-card:hover .rc-num { color:rgba(198,161,91,0.1); }
+.r-card:hover .rc-cat, .r-card:hover .rc-title, .r-card:hover .rc-desc, .r-card:hover .rc-link { color:var(--ivory); }
+.r-card:hover .rc-link { color:var(--gold); }
+.rc-num {
+  font-family:var(--ff-serif); font-size:64px; font-weight:700;
+  color:var(--ivory-warm); position:absolute; top:1rem; right:1.5rem;
+  line-height:1; transition:color 0.3s;
+}
+.rc-cat { font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:0.75rem; position:relative; z-index:1; transition:color 0.3s; }
+.rc-title { font-family:var(--ff-serif); font-size:20px; font-weight:500; color:var(--forest); line-height:1.3; margin-bottom:0.75rem; position:relative; z-index:1; transition:color 0.3s; }
+.rc-desc { font-size:13px; color:var(--slate); line-height:1.75; position:relative; z-index:1; transition:color 0.3s; }
+.rc-link { font-size:12px; color:var(--teal); letter-spacing:0.06em; text-transform:uppercase; font-weight:600; margin-top:1.25rem; display:block; transition:color 0.3s; position:relative; z-index:1; }
+
+/* ════ TEAM ════ */
+.team-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; background:rgba(14,59,46,0.08); }
+.team-card {
+  background:var(--ivory); overflow:hidden; cursor:none;
+  transition:background 0.3s; position:relative;
+}
+.team-card:hover { background:var(--ivory-warm); }
+.tc-photo {
+  height:220px; background:var(--forest);
+  display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden;
+}
+.tc-initials {
+  font-family:var(--ff-serif); font-size:40px; font-weight:600;
+  color:var(--gold); opacity:0.7;
+}
+.tc-overlay {
+  position:absolute; inset:0; background:rgba(9,31,25,0.85);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  opacity:0; transition:opacity 0.3s;
+}
+.team-card:hover .tc-overlay { opacity:1; }
+.tc-social { display:flex; gap:0.75rem; }
+.tc-social-btn {
+  width:36px; height:36px; border:1px solid rgba(198,161,91,0.5);
+  border-radius:2px; display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-size:14px; transition:all 0.2s; cursor:none;
+  text-decoration:none;
+}
+.tc-social-btn:hover { background:var(--gold); color:var(--forest-deep); }
+.tc-view { font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-top:0.75rem; border:1px solid rgba(198,161,91,0.4); padding:6px 14px; border-radius:2px; cursor:none; background:none; transition:all 0.2s; }
+.tc-view:hover { background:var(--gold); color:var(--forest-deep); }
+.tc-body { padding:1.5rem; }
+.tc-name { font-family:var(--ff-serif); font-size:20px; font-weight:500; color:var(--forest); margin-bottom:4px; }
+.tc-role { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:8px; }
+.tc-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; }
+.tc-tag { font-size:10px; background:var(--ivory-warm); color:var(--slate); padding:3px 8px; border-radius:2px; letter-spacing:0.04em; }
+
+/* ════ PROJECTS ════ */
+.proj-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; background:rgba(14,59,46,0.08); }
+.proj-card {
+  background:var(--ivory); padding:2.5rem; cursor:none;
+  transition:background 0.3s; position:relative;
+}
+.proj-card:hover { background:var(--ivory-warm); }
+.proj-status {
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:10px; letter-spacing:0.12em; text-transform:uppercase;
+  font-weight:600; padding:4px 12px; border-radius:2px; margin-bottom:1rem;
+}
+.st-active { background:rgba(30,111,120,0.1); color:var(--teal); }
+.st-planning { background:rgba(198,161,91,0.12); color:var(--bronze); }
+.st-complete { background:rgba(14,59,46,0.1); color:var(--forest); }
+.proj-title { font-family:var(--ff-serif); font-size:25px; font-weight:500; color:var(--forest); line-height:1.2; margin-bottom:0.75rem; }
+.proj-desc { font-size:14px; color:var(--slate); line-height:1.8; margin-bottom:1.75rem; }
+.proj-progress { height:2px; background:var(--ivory-warm); border-radius:2px; margin-bottom:1.5rem; }
+.proj-progress-bar { height:100%; background:linear-gradient(90deg, var(--forest), var(--gold)); border-radius:2px; transition:width 1.5s var(--ease-out); }
+.proj-meta { display:flex; gap:1.5rem; padding-top:1.5rem; border-top:1px solid var(--ivory-warm); }
+.proj-meta-item span:first-child { font-size:10px; color:var(--slate-light); letter-spacing:0.08em; text-transform:uppercase; display:block; margin-bottom:3px; }
+.proj-meta-item span:last-child { font-size:14px; color:var(--forest); font-weight:500; }
+
+/* ════ PUBLICATIONS ════ */
+.pub-filter { display:flex; gap:0; border-bottom:1px solid var(--ivory-warm); margin-bottom:3rem; overflow-x:auto; }
+.pub-filter-btn {
+  padding:10px 20px; font-size:12px; letter-spacing:0.08em;
+  text-transform:uppercase; font-weight:600; color:var(--slate);
+  background:none; border:none; border-bottom:2px solid transparent;
+  cursor:none; transition:all 0.25s; white-space:nowrap;
+}
+.pub-filter-btn.active, .pub-filter-btn:hover { color:var(--forest); border-bottom-color:var(--gold); }
+.pub-list { display:flex; flex-direction:column; gap:0; }
+.pub-item {
+  display:flex; align-items:start; gap:2rem; padding:2rem;
+  border-bottom:1px solid var(--ivory-warm); cursor:none;
+  transition:background 0.25s;
+}
+.pub-item:hover { background:var(--ivory-warm); }
+.pub-year { font-family:var(--ff-serif); font-size:32px; font-weight:600; color:var(--gold); min-width:56px; flex-shrink:0; }
+.pub-body { flex:1; }
+.pub-type { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); font-weight:600; margin-bottom:4px; }
+.pub-title { font-family:var(--ff-serif); font-size:19px; font-weight:500; color:var(--forest); margin-bottom:4px; line-height:1.3; }
+.pub-authors { font-size:13px; color:var(--slate); margin-bottom:4px; }
+.pub-journal { font-size:13px; color:var(--slate-light); font-style:italic; }
+.pub-dl { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-top:0.5rem; cursor:none; }
+.pub-dl:hover { color:var(--bronze); }
+
+/* ════ NEWS ════ */
+.news-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:rgba(14,59,46,0.08); }
+.news-card { background:var(--ivory); overflow:hidden; cursor:none; transition:background 0.3s; }
+.news-card:hover { background:var(--ivory-warm); }
+.news-img { height:180px; background:var(--forest); position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+.news-img-num { font-family:var(--ff-serif); font-size:64px; font-weight:700; color:rgba(198,161,91,0.2); position:relative; z-index:1; }
+.news-body { padding:1.75rem; }
+.news-cat { font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:6px; }
+.news-title { font-family:var(--ff-serif); font-size:20px; font-weight:500; color:var(--forest); line-height:1.35; margin-bottom:8px; }
+.news-excerpt { font-size:13px; color:var(--slate); line-height:1.75; margin-bottom:1rem; }
+.news-date { font-size:11px; color:var(--slate-light); border-top:1px solid var(--ivory-warm); padding-top:0.75rem; }
+
+/* ════ CRESTA AI ════ */
+.ai-page { background:var(--forest-deep); min-height:100vh; padding-top:72px; }
+.ai-hero { padding:5rem 3.5rem; text-align:center; position:relative; overflow:hidden; }
+.ai-hero h1 { font-family:var(--ff-serif); font-size:clamp(36px,5vw,64px); color:var(--ivory); font-weight:500; margin-top:1rem; }
+.ai-hero p { color:rgba(250,249,246,0.55); font-size:16px; max-width:540px; margin:1rem auto 0; font-weight:300; line-height:1.8; }
+.ai-interface {
+  max-width:860px; margin:0 auto; padding:0 3.5rem 5rem;
+}
+.ai-chat-box {
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(198,161,91,0.2);
+  border-radius:4px; overflow:hidden;
+  backdrop-filter:blur(12px);
+}
+.ai-chat-header {
+  background:rgba(198,161,91,0.08); padding:1.25rem 1.75rem;
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid rgba(198,161,91,0.15);
+}
+.ai-status { display:flex; align-items:center; gap:8px; }
+.ai-dot { width:8px; height:8px; background:#4ade80; border-radius:50%; animation:pulse 2s infinite; }
+.ai-status span { font-size:13px; color:var(--gold); font-weight:500; letter-spacing:0.04em; }
+.ai-model { font-size:11px; color:rgba(250,249,246,0.35); letter-spacing:0.06em; }
+.ai-messages { height:380px; overflow-y:auto; padding:2rem; display:flex; flex-direction:column; gap:1.25rem; }
+.ai-messages::-webkit-scrollbar { width:3px; }
+.ai-messages::-webkit-scrollbar-thumb { background:rgba(198,161,91,0.3); border-radius:2px; }
+.ai-msg { max-width:80%; }
+.ai-msg.user { align-self:flex-end; }
+.ai-msg-bubble {
+  padding:1rem 1.25rem; border-radius:3px; font-size:14px; line-height:1.7;
+}
+.ai-msg.bot .ai-msg-bubble {
+  background:rgba(255,255,255,0.06); color:var(--ivory);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.ai-msg.user .ai-msg-bubble {
+  background:rgba(198,161,91,0.18); color:var(--gold-pale);
+  border:1px solid rgba(198,161,91,0.25);
+}
+.ai-msg-time { font-size:10px; color:rgba(255,255,255,0.25); margin-top:4px; padding:0 4px; }
+.ai-input-row {
+  display:flex; gap:0; border-top:1px solid rgba(198,161,91,0.15);
+}
+.ai-input {
+  flex:1; background:transparent; border:none; outline:none;
+  padding:1.25rem 1.5rem; font-size:14px; color:var(--ivory);
+  font-family:var(--ff-sans);
+}
+.ai-input::placeholder { color:rgba(255,255,255,0.25); }
+.ai-send {
+  background:var(--gold); border:none; padding:0 1.75rem;
+  color:var(--forest-deep); font-size:13px; font-weight:700;
+  letter-spacing:0.08em; text-transform:uppercase; cursor:none;
+  transition:background 0.25s;
+}
+.ai-send:hover { background:var(--gold-light); }
+.ai-prompts { margin-top:2rem; }
+.ai-prompts-title { font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(198,161,91,0.6); margin-bottom:1rem; }
+.ai-prompt-chips { display:flex; flex-wrap:wrap; gap:0.5rem; }
+.ai-chip {
+  padding:8px 16px; border:1px solid rgba(198,161,91,0.25);
+  border-radius:2px; font-size:12.5px; color:rgba(250,249,246,0.6);
+  cursor:none; transition:all 0.25s; background:none;
+  font-family:var(--ff-sans);
+}
+.ai-chip:hover { border-color:var(--gold); color:var(--gold); }
+.ai-typing { display:flex; align-items:center; gap:4px; padding:0.75rem 0; }
+.ai-typing span { width:7px; height:7px; background:rgba(198,161,91,0.5); border-radius:50%; animation:typing 1.2s infinite; }
+.ai-typing span:nth-child(2) { animation-delay:0.2s; }
+.ai-typing span:nth-child(3) { animation-delay:0.4s; }
+@keyframes typing { 0%,60%,100%{transform:translateY(0);opacity:0.5} 30%{transform:translateY(-6px);opacity:1} }
+
+/* ════ ETHICS PAGE ════ */
+.ethics-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; background:rgba(14,59,46,0.08); margin-top:3rem; }
+.ethics-card { background:var(--ivory); padding:3rem; }
+.ethics-card:hover { background:var(--ivory-warm); }
+.ethics-icon { font-size:36px; margin-bottom:1.5rem; }
+.ethics-title { font-family:var(--ff-serif); font-size:24px; font-weight:500; color:var(--forest); margin-bottom:0.75rem; }
+.ethics-text { font-size:14.5px; color:var(--slate); line-height:1.85; }
+
+/* ════ CONTACT ════ */
+.contact-layout { display:grid; grid-template-columns:1fr 1.2fr; gap:5rem; align-items:start; }
+.contact-detail { display:flex; align-items:start; gap:1.25rem; margin-bottom:1.75rem; }
+.cd-icon { width:42px; height:42px; border:1px solid rgba(198,161,91,0.4); border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:18px; }
+.cd-label { font-size:11px; color:var(--slate-light); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:3px; }
+.cd-val { font-size:15px; color:var(--text); font-weight:400; }
+.social-row { display:flex; gap:0.6rem; margin-top:2rem; }
+.soc-btn {
+  width:42px; height:42px; border:1px solid rgba(14,59,46,0.15);
+  border-radius:2px; display:flex; align-items:center; justify-content:center;
+  font-size:16px; cursor:none; transition:all 0.25s; text-decoration:none; color:var(--slate);
+}
+.soc-btn:hover { border-color:var(--gold); color:var(--gold); }
+.contact-form { background:var(--ivory-warm); padding:3rem; }
+.contact-form h3 { font-family:var(--ff-serif); font-size:30px; color:var(--forest); margin-bottom:1.75rem; font-weight:500; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.fgroup { margin-bottom:1.25rem; }
+.fgroup label { display:block; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--slate); margin-bottom:6px; font-weight:600; }
+.fgroup input, .fgroup textarea, .fgroup select {
+  width:100%; padding:12px 14px;
+  border:1px solid rgba(14,59,46,0.12); background:var(--ivory);
+  font-size:14px; color:var(--text); border-radius:2px; outline:none;
+  transition:border-color 0.25s;
+}
+.fgroup input:focus, .fgroup textarea:focus, .fgroup select:focus { border-color:var(--gold); }
+.fgroup textarea { resize:vertical; min-height:120px; }
+.ferr { font-size:12px; color:var(--error); margin-top:4px; display:none; }
+.form-submit {
+  width:100%; background:var(--forest); color:var(--ivory);
+  border:none; padding:14px; font-size:13px; font-weight:700;
+  letter-spacing:0.1em; text-transform:uppercase; cursor:none;
+  border-radius:2px; margin-top:0.5rem; transition:background 0.25s;
+}
+.form-submit:hover { background:var(--forest-mid); }
+.form-success {
+  display:none; background:rgba(14,59,46,0.08);
+  border:1px solid rgba(14,59,46,0.2); color:var(--forest);
+  padding:1rem; border-radius:2px; font-size:14px;
+  text-align:center; margin-top:1rem;
+}
+
+/* ════ PROFILE MODAL ════ */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(9,31,25,0.85);
+  z-index:9000; display:none; align-items:center; justify-content:center;
+  padding:2rem; backdrop-filter:blur(4px);
+}
+.modal-overlay.active { display:flex; }
+.modal-box {
+  background:var(--ivory); max-width:620px; width:100%;
+  border-top:3px solid var(--gold); position:relative;
+  animation:modalIn 0.4s var(--ease-out);
+}
+@keyframes modalIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+.modal-close {
+  position:absolute; top:1rem; right:1.25rem;
+  background:none; border:none; font-size:22px; cursor:none;
+  color:var(--slate); transition:color 0.2s;
+}
+.modal-close:hover { color:var(--forest); }
+.modal-header { display:flex; gap:1.75rem; align-items:center; padding:2rem; border-bottom:1px solid var(--ivory-warm); }
+.modal-avatar { width:80px; height:80px; border-radius:50%; background:var(--forest); display:flex; align-items:center; justify-content:center; font-family:var(--ff-serif); font-size:30px; color:var(--gold); font-weight:600; flex-shrink:0; }
+.modal-name { font-family:var(--ff-serif); font-size:28px; color:var(--forest); font-weight:500; margin-bottom:4px; }
+.modal-role { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:4px; }
+.modal-affil { font-size:13px; color:var(--slate); }
+.modal-body { padding:2rem; }
+.modal-body p { font-size:14.5px; color:var(--text-mid); line-height:1.85; margin-bottom:1.25rem; }
+.modal-interests { display:flex; flex-wrap:wrap; gap:6px; margin-top:1rem; }
+.modal-interest { font-size:11px; background:var(--ivory-warm); color:var(--teal); padding:4px 10px; border-radius:2px; letter-spacing:0.04em; font-weight:500; }
+
+/* ════ PROJECT DETAIL ════ */
+.proj-detail-header { background:var(--forest); padding:4rem 3.5rem; position:relative; overflow:hidden; }
+.proj-detail-header .sub-hero-grid { position:absolute; inset:0; }
+.pd-status { display:inline-flex; align-items:center; gap:6px; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; font-weight:600; padding:5px 14px; border-radius:2px; margin-bottom:1.25rem; position:relative; z-index:1; }
+.pd-title { font-family:var(--ff-serif); font-size:clamp(32px,4.5vw,54px); color:var(--ivory); font-weight:500; margin-bottom:1.25rem; line-height:1.1; position:relative; z-index:1; }
+.pd-meta { display:flex; gap:2.5rem; flex-wrap:wrap; position:relative; z-index:1; }
+.pd-meta-i span:first-child { font-size:10px; color:rgba(250,249,246,0.4); letter-spacing:0.1em; text-transform:uppercase; display:block; margin-bottom:3px; }
+.pd-meta-i span:last-child { font-size:15px; color:var(--gold-pale); font-weight:500; }
+.back-btn { display:inline-flex; align-items:center; gap:8px; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); cursor:none; font-weight:600; margin-bottom:1.5rem; background:none; border:none; transition:opacity 0.2s; }
+.back-btn:hover { opacity:0.7; }
+
+/* ════ FOOTER ════ */
+footer { background:var(--forest-deep); padding:5rem 3.5rem 2rem; border-top:1px solid rgba(198,161,91,0.15); }
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3.5rem; max-width:1200px; margin:0 auto; padding-bottom:3.5rem; border-bottom:1px solid rgba(198,161,91,0.12); }
+.footer-brand-logo { display:flex; align-items:center; gap:10px; margin-bottom:1rem; cursor:none; }
+.footer-brand-logo .nav-brand-mark { width:34px; height:34px; }
+.footer-brand-logo .nav-brand-name { font-size:17px; }
+.footer-brand p { color:rgba(250,249,246,0.45); font-size:14px; line-height:1.8; font-weight:300; max-width:300px; margin-bottom:1.5rem; }
+.footer-nepal { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(198,161,91,0.6); display:flex; align-items:center; gap:6px; }
+.footer-nepal::before { content:'🏔'; font-size:14px; }
+.footer-col h4 { font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:1.25rem; }
+.footer-col ul { list-style:none; }
+.footer-col ul li { margin-bottom:0.6rem; }
+.footer-col ul li a { color:rgba(250,249,246,0.45); font-size:14px; cursor:none; transition:color 0.2s; }
+.footer-col ul li a:hover { color:var(--gold-light); }
+.footer-bottom { display:flex; justify-content:space-between; align-items:center; padding-top:2rem; max-width:1200px; margin:0 auto; }
+.footer-copy { font-size:12px; color:rgba(250,249,246,0.3); }
+.footer-soc { display:flex; gap:0.5rem; }
+.footer-soc-btn { width:34px; height:34px; border:1px solid rgba(198,161,91,0.2); border-radius:2px; display:flex; align-items:center; justify-content:center; cursor:none; transition:all 0.25s; color:rgba(250,249,246,0.35); text-decoration:none; font-size:14px; }
+.footer-soc-btn:hover { border-color:var(--gold); color:var(--gold); }
+
+/* ════ NOTIFICATION ════ */
+.notif { position:fixed; bottom:2rem; right:2rem; background:var(--forest); color:var(--ivory); padding:1rem 1.5rem; border-left:3px solid var(--gold); font-size:14px; z-index:9999; transform:translateX(300%); transition:transform 0.4s var(--ease-out); box-shadow:0 8px 32px rgba(0,0,0,0.3); max-width:320px; }
+.notif.show { transform:none; }
+
+/* ════ TABS ════ */
+.tab-bar { display:flex; border-bottom:1px solid var(--ivory-warm); margin-bottom:3rem; overflow-x:auto; }
+.tab-btn { padding:10px 20px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; color:var(--slate); background:none; border:none; border-bottom:2px solid transparent; cursor:none; transition:all 0.25s; white-space:nowrap; }
+.tab-btn.active, .tab-btn:hover { color:var(--forest); border-bottom-color:var(--gold); }
+.tab-pane { display:none; }
+.tab-pane.active { display:block; }
+
+/* ════ SCROLL REVEAL ════ */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); }
+.reveal.visible { opacity:1; transform:none; }
+.reveal-delay-1 { transition-delay:0.1s; }
+.reveal-delay-2 { transition-delay:0.2s; }
+.reveal-delay-3 { transition-delay:0.3s; }
+
+/* ════ MOBILE ════ */
+@media(max-width:1024px) {
+  .pillars-grid { grid-template-columns:repeat(3,1fr); }
+  .research-grid { grid-template-columns:repeat(2,1fr); }
+  .team-grid { grid-template-columns:repeat(2,1fr); }
+  .footer-grid { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:768px) {
+  #navbar { padding:0 1.5rem; }
+  .nav-links, .nav-cta { display:none; }
+  .nav-menu-btn { display:flex; }
+  .section { padding:4rem 1.5rem; }
+  .sub-hero { padding:4rem 1.5rem; }
+  .stats-strip { grid-template-columns:1fr 1fr; }
+  .pillars-grid { grid-template-columns:1fr; }
+  .research-grid { grid-template-columns:1fr; }
+  .team-grid { grid-template-columns:1fr 1fr; }
+  .proj-grid { grid-template-columns:1fr; }
+  .news-grid { grid-template-columns:1fr; }
+  .insights-grid { grid-template-columns:1fr; }
+  .contact-layout { grid-template-columns:1fr; }
+  .about-layout { grid-template-columns:1fr; }
+  .ethics-grid { grid-template-columns:1fr; }
+  .footer-grid { grid-template-columns:1fr; }
+  .form-row { grid-template-columns:1fr; }
+  .hero h1 { font-size:36px; }
+  #cursor-ring, #cursor-dot { display:none; }
+  body { cursor:auto; }
+  button { cursor:pointer; }
+  a { cursor:pointer; }
+}
+
+/* ════ DARK SECTION VARIANT ════ */
+.dark-section { background:var(--forest-deep); }
+.dark-section .sec-title { color:var(--ivory); }
+.dark-section .sec-sub { color:rgba(250,249,246,0.5); }
+.dark-section .sec-tag { color:var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor-ring"></div>
+<div id="cursor-dot"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">Bio<span>Crest</span></div>
+  <div class="loader-line"></div>
+  <div class="loader-sub">Consortium · Nepal · Global Science</div>
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif"></div>
+
+<!-- PROFILE MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-header">
+      <div class="modal-avatar" id="modal-avatar"></div>
+      <div>
+        <div class="modal-name" id="modal-name"></div>
+        <div class="modal-role" id="modal-role"></div>
+        <div class="modal-affil" id="modal-affil"></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <p id="modal-bio"></p>
+      <div class="modal-interests" id="modal-interests"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav id="navbar">
+  <div class="nav-brand" onclick="showPage('home')">
+    <div class="nav-brand-mark">BC</div>
+    <div class="nav-brand-name">Bio<em>Crest</em> Consortium</div>
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+    <li><a onclick="showPage('research')" id="nav-research">Research</a></li>
+    <li><a onclick="showPage('projects')" id="nav-projects">Projects</a></li>
+    <li><a onclick="showPage('publications')" id="nav-publications">Publications</a></li>
+    <li><a onclick="showPage('team')" id="nav-team">Team</a></li>
+    <li><a onclick="showPage('news')" id="nav-news">News</a></li>
+    <li><a onclick="showPage('ai')" id="nav-ai">Cresta AI</a></li>
+    <li><a onclick="showPage('ethics')" id="nav-ethics">Ethics</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('contact')">Collaborate</button>
+  <button class="nav-menu-btn" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ══════════════ HOME PAGE ══════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <canvas id="dna-canvas"></canvas>
+    <div class="hero-grid"></div>
+    <div class="hero-mountain"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Est. 2023 · Nepal · Youth-Led Scientific Initiative</div>
+      <h1>Advancing <em>Biotechnology,</em><br>Public Health, and<br>Scientific <em>Literacy</em></h1>
+      <p class="hero-sub">Through Youth-Led Innovation.<br><strong>Rooted in Nepal. Connected to Global Science.</strong></p>
+      <div class="hero-btns">
+        <button class="btn-gold" onclick="showPage('research')">Explore Research →</button>
+        <button class="btn-ghost" onclick="showPage('about')">About BioCrest</button>
+        <button class="btn-teal" onclick="showPage('ai')">
+          <span style="font-size:16px">🧠</span> Cresta AI
+        </button>
+      </div>
+    </div>
+    <div class="hero-scroll" onclick="document.querySelector('.stats-strip').scrollIntoView({behavior:'smooth'})">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-strip" id="stats-strip">
+    <div class="stat-item reveal">
+      <span class="stat-num" data-target="12"><span>0</span>+</span>
+      <span class="stat-label">Research Initiatives</span>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <span class="stat-num" data-target="200"><span>0</span>+</span>
+      <span class="stat-label">Youth Members</span>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <span class="stat-num" data-target="18"><span>0</span>+</span>
+      <span class="stat-label">Workshops & Events</span>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <span class="stat-num" data-target="8"><span>0</span>+</span>
+      <span class="stat-label">Collaborations</span>
+    </div>
+  </div>
+
+  <!-- PILLARS -->
+  <div style="background:var(--ivory); padding:7rem 3.5rem;">
+    <div style="max-width:1200px;margin:0 auto">
+      <span class="sec-tag reveal">What We Stand For</span>
+      <h2 class="sec-title reveal">Core Pillars of<br>BioCrest <em>Consortium</em></h2>
+      <div class="divider reveal"></div>
+      <p class="sec-sub reveal">Five disciplines. One mission. Youth-driven. Nepal-rooted. Globally impactful.</p>
+      <div class="pillars-grid reveal" style="margin-top:3rem">
+        <div class="pillar-card" onclick="showPage('research')">
+          <span class="pc-icon">🧬</span>
+          <div class="pc-title">Biotechnology</div>
+          <p class="pc-desc">Exploring genetic engineering, CRISPR, and emerging biotech frontiers for health and agriculture.</p>
+          <span class="pc-arrow">→</span>
+        </div>
+        <div class="pillar-card" onclick="showPage('research')">
+          <span class="pc-icon">🌍</span>
+          <div class="pc-title">Global Health</div>
+          <p class="pc-desc">Addressing transboundary health challenges, infectious disease, and global health equity.</p>
+          <span class="pc-arrow">→</span>
+        </div>
+        <div class="pillar-card" onclick="showPage('research')">
+          <span class="pc-icon">🏥</span>
+          <div class="pc-title">Public Health</div>
+          <p class="pc-desc">Community-level health systems, epidemiology, disease prevention, and health policy advocacy.</p>
+          <span class="pc-arrow">→</span>
+        </div>
+        <div class="pillar-card" onclick="showPage('research')">
+          <span class="pc-icon">🔬</span>
+          <div class="pc-title">Research & Innovation</div>
+          <p class="pc-desc">Fostering original scientific inquiry, collaborative projects, and evidence-based discovery.</p>
+          <span class="pc-arrow">→</span>
+        </div>
+        <div class="pillar-card" onclick="showPage('research')">
+          <span class="pc-icon">📚</span>
+          <div class="pc-title">Scientific Literacy</div>
+          <p class="pc-desc">Making science accessible and engaging for youth across Nepal and the broader South Asian region.</p>
+          <span class="pc-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED INSIGHTS -->
+  <div style="background:var(--ivory-warm); padding:7rem 3.5rem;">
+    <div style="max-width:1200px;margin:0 auto">
+      <span class="sec-tag reveal">Featured Insights</span>
+      <h2 class="sec-title reveal">Latest from<br>BioCrest <em>Research</em></h2>
+      <div class="divider reveal"></div>
+      <div class="insights-grid reveal" style="margin-top:0">
+        <div class="insight-card" onclick="showPage('news')">
+          <div class="insight-img large">
+            <div class="insight-img-pattern"></div>
+            <span style="font-family:var(--ff-serif);font-size:80px;color:rgba(198,161,91,0.25);font-weight:700;position:relative;z-index:1">01</span>
+          </div>
+          <div class="insight-body">
+            <div class="insight-cat">Biotechnology</div>
+            <div class="insight-title">CRISPR in the Himalayan Context: Opportunities and Ethical Boundaries</div>
+            <p class="insight-excerpt">How gene-editing technologies can address Nepal-specific agricultural and disease challenges while respecting ethical frameworks.</p>
+            <div class="insight-date">May 2025</div>
+          </div>
+        </div>
+        <div class="insight-card" onclick="showPage('news')">
+          <div class="insight-img" style="background:var(--forest-mid)">
+            <div class="insight-img-pattern"></div>
+            <span style="font-family:var(--ff-serif);font-size:80px;color:rgba(198,161,91,0.2);font-weight:700;position:relative;z-index:1">02</span>
+          </div>
+          <div class="insight-body">
+            <div class="insight-cat">Public Health</div>
+            <div class="insight-title">AMR Awareness: Nepal's Silent Health Emergency</div>
+            <p class="insight-excerpt">Antimicrobial resistance trends in South Asia and BioCrest's awareness campaign outcomes.</p>
+            <div class="insight-date">April 2025</div>
+          </div>
+        </div>
+        <div class="insight-card" onclick="showPage('news')">
+          <div class="insight-img" style="background:var(--teal)">
+            <div class="insight-img-pattern"></div>
+            <span style="font-family:var(--ff-serif);font-size:80px;color:rgba(250,249,246,0.15);font-weight:700;position:relative;z-index:1">03</span>
+          </div>
+          <div class="insight-body">
+            <div class="insight-cat">Youth Innovation</div>
+            <div class="insight-title">Youth Scientific Literacy Workshop Series: Impact Report</div>
+            <p class="insight-excerpt">Results from our 2024–25 workshop series reaching 500+ students across Kathmandu Valley.</p>
+            <div class="insight-date">March 2025</div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:2.5rem">
+        <button class="btn-gold" onclick="showPage('news')">View All Insights →</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ ABOUT PAGE ══════════════ -->
+<div class="page" id="page-about">
+  <div class="sub-hero">
+    <div class="sub-hero-grid"></div>
+    <div class="sub-hero-mountain"></div>
+    <div class="badge">Our Identity</div>
+    <h1>About BioCrest<br><em style="color:var(--gold);font-style:italic">Consortium</em></h1>
+    <p>A generation of young scientists from Nepal, building bridges between local realities and global scientific frontiers.</p>
+  </div>
+  <div class="section">
+    <div class="about-layout">
+      <div>
+        <span class="sec-tag reveal">Our Foundation</span>
+        <h2 class="sec-title reveal">Vision &amp;<br>Mission</h2>
+        <div class="divider reveal"></div>
+        <p class="reveal" style="font-size:15.5px;color:var(--text-mid);line-height:1.9;margin-bottom:1.5rem">BioCrest Consortium was founded on the conviction that young people in Nepal have the intellectual capacity, curiosity, and commitment to meaningfully contribute to global scientific conversations — especially in biotechnology, public health, and scientific literacy.</p>
+        <div class="quote-block reveal">
+          <p>"Science is not the privilege of the few. It is the inheritance of all humanity — and we are claiming ours."</p>
+          <cite>BioCrest Founding Vision, 2023</cite>
+        </div>
+        <div style="margin-top:2rem" class="reveal">
+          <p style="font-size:14px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--forest);margin-bottom:0.75rem">Our Mission</p>
+          <p style="font-size:15px;color:var(--text-mid);line-height:1.85">To advance biotechnology awareness, public health education, and research culture among Nepali youth — connecting them to global scientific networks and equipping them to drive evidence-based change in their communities.</p>
+        </div>
+        <div style="margin-top:2rem" class="reveal">
+          <p style="font-size:14px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--forest);margin-bottom:0.75rem">Nepal-Rooted Identity</p>
+          <p style="font-size:15px;color:var(--text-mid);line-height:1.85">The Himalayas shaped our perspective. Grounded in Nepal's rich biodiversity, public health challenges, and academic potential, BioCrest draws from local context while aspiring to global impact. We are not importing science — we are generating it.</p>
+        </div>
+      </div>
+      <div>
+        <span class="sec-tag reveal">Our Journey</span>
+        <h2 class="sec-title reveal" style="font-size:38px">Timeline</h2>
+        <div class="divider reveal"></div>
+        <div class="timeline-v reveal" style="margin-top:2rem">
+          <div class="tl-v-item">
+            <div class="tl-v-dot"></div>
+            <div class="tl-v-year">2023 · FOUNDING</div>
+            <div class="tl-v-title">BioCrest Consortium Established</div>
+            <p class="tl-v-text">Founded by a group of passionate young scientists and health advocates based in Kathmandu, Nepal, with a shared vision of elevating scientific culture in South Asia.</p>
+          </div>
+          <div class="tl-v-item">
+            <div class="tl-v-dot"></div>
+            <div class="tl-v-year">2023 · MILESTONE</div>
+            <div class="tl-v-title">LinkedIn Presence &amp; Community Launch</div>
+            <p class="tl-v-text">Official launch on LinkedIn with an immediate response from the scientific community — establishing digital credibility and a growing network of collaborators.</p>
+          </div>
+          <div class="tl-v-item">
+            <div class="tl-v-dot"></div>
+            <div class="tl-v-year">2024 · GROWTH</div>
+            <div class="tl-v-title">First Workshop Series &amp; AMR Campaign</div>
+            <p class="tl-v-text">Hosted the inaugural Scientific Literacy Workshop Series and launched the Antimicrobial Resistance Awareness Campaign across Kathmandu Valley schools and colleges.</p>
+          </div>
+          <div class="tl-v-item">
+            <div class="tl-v-dot"></div>
+            <div class="tl-v-year">2025 · EXPANSION</div>
+            <div class="tl-v-title">Research Division &amp; Global Outreach</div>
+            <p class="tl-v-text">Formalized research divisions, expanded team membership to 200+ youth members, and established international collaborations spanning South and Southeast Asia.</p>
+          </div>
+          <div class="tl-v-item">
+            <div class="tl-v-dot"></div>
+            <div class="tl-v-year">VISION · 2026+</div>
+            <div class="tl-v-title">Global Consortium Status</div>
+            <p class="tl-v-text">Targeting formal partnerships with WHO, ICIMOD, and leading academic institutions — positioning BioCrest as a recognized international youth scientific consortium.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ RESEARCH PAGE ══════════════ -->
+<div class="page" id="page-research">
+  <div class="sub-hero">
+    <div class="sub-hero-grid"></div>
+    <div class="sub-hero-mountain"></div>
+    <div class="badge">Science Division</div>
+    <h1>Research<br><em style="color:var(--gold);font-style:italic">Division</em></h1>
+    <p>Seven research domains where BioCrest Consortium builds knowledge, awareness, and evidence-based advocacy.</p>
+  </div>
+  <div class="section">
+    <span class="sec-tag reveal">Our Domains</span>
+    <h2 class="sec-title reveal">Research Themes</h2>
+    <div class="divider reveal"></div>
+    <p class="sec-sub reveal">Each domain connects Nepal's immediate public health realities with the frontiers of global biotechnology and health science.</p>
+    <div class="research-grid reveal" style="margin-top:3rem">
+      <div class="r-card" onclick="notify('Exploring Biotechnology research area...')">
+        <div class="rc-num">01</div>
+        <div class="rc-cat">Primary Domain</div>
+        <div class="rc-title">Biotechnology &amp; Genetic Engineering</div>
+        <p class="rc-desc">CRISPR, gene therapy, synthetic biology, and the ethical application of biotech tools in South Asian contexts.</p>
+        <span class="rc-link">Explore →</span>
+      </div>
+      <div class="r-card" onclick="notify('Exploring Genetics research area...')">
+        <div class="rc-num">02</div>
+        <div class="rc-cat">Primary Domain</div>
+        <div class="rc-title">Genetics &amp; Molecular Biology</div>
+        <p class="rc-desc">Population genetics, hereditary disease prevalence, genomic medicine, and precision health for Nepal's diverse genetic landscape.</p>
+        <span class="rc-link">Explore →</span>
+      </div>
+      <div class="r-card" onclick="notify('Exploring Epidemiology research area...')">
+        <div class="rc-num">03</div>
+        <div class="rc-cat">Applied Domain</div>
+        <div class="rc-title">Epidemiology &amp; Disease Surveillance</div>
+        <p class="rc-desc">Infectious disease tracking, outbreak response, zoonotic disease dynamics in the Himalayan region.</p>
+        <span class="rc-link">Explore →</span>
+      </div>
+      <div class="r-card" onclick="notify('Exploring Public Health research area...')">
+        <div class="rc-num">04</div>
+        <div class="rc-cat">Applied Domain</div>
+        <div class="rc-title">Public Health Systems</div>
+        <p class="rc-desc">Nepal's healthcare system challenges, community health interventions, nutrition, maternal health, and WASH programs.</p>
+        <span class="rc-link">Explore →</span>
+      </div>
+      <div class="r-card" onclick="notify('Exploring Global Health Policy research area...')">
+        <div class="rc-num">05</div>
+        <div class="rc-cat">Policy Domain</div>
+        <div class="rc-title">Global Health Policy</div>
+        <p class="rc-desc">SDG 3 alignment, WHO frameworks, UHC in low-income contexts, and health diplomacy from a Nepali perspective.</p>
+        <span class="rc-link">Explore →</span>
+      </div>
+      <div class="r-card" onclick="notify('Exploring AMR research area...')">
+        <div class="rc-num">06</div>
+        <div class="rc-cat">Critical Domain</div>
+        <div class="rc-title">Antimicrobial Resistance</div>
+        <p class="rc-desc">AMR trends in South Asia, antibiotic stewardship, policy advocacy, and community AMR awareness campaigns.</p>
+        <span class="rc-link">Explore →</span>
+      </div>
+      <div class="r-card" onclick="notify('Exploring AI in Healthcare research area...')">
+        <div class="rc-num">07</div>
+        <div class="rc-cat">Emerging Domain</div>
+        <div class="rc-title">AI &amp; Digital Health</div>
+        <p class="rc-desc">Machine learning in diagnostics, digital health infrastructure for low-resource settings, telemedicine in Nepal.</p>
+        <span class="rc-link">Explore →</span>
+      </div>
+      <div class="r-card" onclick="showPage('publications')">
+        <div class="rc-num">+</div>
+        <div class="rc-cat">Resource</div>
+        <div class="rc-title">Publications &amp; Reports</div>
+        <p class="rc-desc">Access our growing archive of research summaries, workshop reports, and collaborative publications.</p>
+        <span class="rc-link">View Publications →</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PROJECTS PAGE ══════════════ -->
+<div class="page" id="page-projects">
+  <div class="sub-hero">
+    <div class="sub-hero-grid"></div>
+    <div class="sub-hero-mountain"></div>
+    <div class="badge">Active Work</div>
+    <h1>Our<br><em style="color:var(--gold);font-style:italic">Projects</em></h1>
+    <p>Initiatives translating scientific knowledge into tangible community and educational impact across Nepal.</p>
+  </div>
+  <div class="section">
+    <div class="proj-grid reveal">
+      <div class="proj-card">
+        <div class="proj-status st-active">● Active</div>
+        <div class="proj-title">Youth Scientific Literacy Initiative</div>
+        <p class="proj-desc">A structured program delivering science communication workshops, guest lectures from researchers, and hands-on laboratory demonstrations to high school and undergraduate students across Kathmandu Valley and beyond.</p>
+        <div class="proj-progress"><div class="proj-progress-bar" style="width:65%"></div></div>
+        <div class="proj-meta">
+          <div class="proj-meta-item"><span>Status</span><span>65% Complete</span></div>
+          <div class="proj-meta-item"><span>Reach</span><span>500+ Students</span></div>
+          <div class="proj-meta-item"><span>Timeline</span><span>2024 – 2026</span></div>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-status st-active">● Active</div>
+        <div class="proj-title">AMR Awareness Campaign Nepal</div>
+        <p class="proj-desc">Public education campaign on antimicrobial resistance targeting communities, pharmacies, and healthcare workers. Developing Nepali-language infographics, social media content, and policy briefs for healthcare stakeholders.</p>
+        <div class="proj-progress"><div class="proj-progress-bar" style="width:50%"></div></div>
+        <div class="proj-meta">
+          <div class="proj-meta-item"><span>Status</span><span>50% Complete</span></div>
+          <div class="proj-meta-item"><span>Districts</span><span>5 Districts</span></div>
+          <div class="proj-meta-item"><span>Timeline</span><span>2024 – 2025</span></div>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-status st-active">● Active</div>
+        <div class="proj-title">Biotechnology Education Workshops</div>
+        <p class="proj-desc">Monthly intensive workshops covering CRISPR basics, DNA extraction, bioinformatics tools, and ethical dimensions of genetic technologies — designed for science undergraduates and graduate students in Nepal.</p>
+        <div class="proj-progress"><div class="proj-progress-bar" style="width:40%"></div></div>
+        <div class="proj-meta">
+          <div class="proj-meta-item"><span>Status</span><span>Ongoing</span></div>
+          <div class="proj-meta-item"><span>Workshops</span><span>18 Held</span></div>
+          <div class="proj-meta-item"><span>Timeline</span><span>2023 – Present</span></div>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-status st-planning">◎ Planning</div>
+        <div class="proj-title">BioCrest Research Fellowship 2026</div>
+        <p class="proj-desc">A structured mentorship and research fellowship program pairing Nepali undergraduate researchers with senior mentors for 3-month supervised research projects in biotechnology, public health, and epidemiology.</p>
+        <div class="proj-progress"><div class="proj-progress-bar" style="width:20%"></div></div>
+        <div class="proj-meta">
+          <div class="proj-meta-item"><span>Status</span><span>In Design</span></div>
+          <div class="proj-meta-item"><span>Positions</span><span>15 Fellows</span></div>
+          <div class="proj-meta-item"><span>Timeline</span><span>2026 Launch</span></div>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-status st-planning">◎ Planning</div>
+        <div class="proj-title">Nepal Public Health Data Repository</div>
+        <p class="proj-desc">Building an open-access repository of curated Nepali public health data, research reports, and epidemiological datasets — enabling evidence-based decision making for researchers, students, and policymakers.</p>
+        <div class="proj-progress"><div class="proj-progress-bar" style="width:15%"></div></div>
+        <div class="proj-meta">
+          <div class="proj-meta-item"><span>Status</span><span>Designing</span></div>
+          <div class="proj-meta-item"><span>Data Sets</span><span>30+ Planned</span></div>
+          <div class="proj-meta-item"><span>Timeline</span><span>2025 – 2027</span></div>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-status st-complete">✓ Completed</div>
+        <div class="proj-title">COVID-19 Science Communication Series</div>
+        <p class="proj-desc">A 12-episode science communication series explaining COVID-19 vaccines, variants, and prevention in Nepali and English — reaching over 10,000 views across social media platforms.</p>
+        <div class="proj-progress"><div class="proj-progress-bar" style="width:100%"></div></div>
+        <div class="proj-meta">
+          <div class="proj-meta-item"><span>Status</span><span>Complete</span></div>
+          <div class="proj-meta-item"><span>Reach</span><span>10,000+ Views</span></div>
+          <div class="proj-meta-item"><span>Duration</span><span>2023</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PUBLICATIONS PAGE ══════════════ -->
+<div class="page" id="page-publications">
+  <div class="sub-hero">
+    <div class="sub-hero-grid"></div>
+    <div class="sub-hero-mountain"></div>
+    <div class="badge">Knowledge Archive</div>
+    <h1>Publications &amp;<br><em style="color:var(--gold);font-style:italic">Reports</em></h1>
+    <p>Research summaries, workshop reports, policy briefs, and educational resources from BioCrest Consortium.</p>
+  </div>
+  <div class="section">
+    <div class="pub-filter reveal">
+      <button class="pub-filter-btn active" onclick="filterPubs('all',this)">All</button>
+      <button class="pub-filter-btn" onclick="filterPubs('report',this)">Reports</button>
+      <button class="pub-filter-btn" onclick="filterPubs('brief',this)">Policy Briefs</button>
+      <button class="pub-filter-btn" onclick="filterPubs('article',this)">Articles</button>
+      <button class="pub-filter-btn" onclick="filterPubs('workshop',this)">Workshop Materials</button>
+    </div>
+    <div class="pub-list reveal">
+      <div class="pub-item" data-type="report" onclick="notify('Opening report PDF...')">
+        <div class="pub-year">2025</div>
+        <div class="pub-body">
+          <div class="pub-type">Annual Report</div>
+          <div class="pub-title">BioCrest Consortium Annual Report 2024–2025</div>
+          <div class="pub-authors">BioCrest Consortium Team</div>
+          <div class="pub-journal">BioCrest Consortium Official Publication</div>
+          <div class="pub-dl">↓ Download PDF</div>
+        </div>
+      </div>
+      <div class="pub-item" data-type="brief" onclick="notify('Opening policy brief...')">
+        <div class="pub-year">2025</div>
+        <div class="pub-body">
+          <div class="pub-type">Policy Brief</div>
+          <div class="pub-title">Antimicrobial Resistance in Nepal: Evidence Summary &amp; Policy Recommendations</div>
+          <div class="pub-authors">BioCrest AMR Research Working Group</div>
+          <div class="pub-journal">BioCrest Consortium Policy Series</div>
+          <div class="pub-dl">↓ Download PDF</div>
+        </div>
+      </div>
+      <div class="pub-item" data-type="article" onclick="notify('Opening article...')">
+        <div class="pub-year">2025</div>
+        <div class="pub-body">
+          <div class="pub-type">Research Article</div>
+          <div class="pub-title">Youth Perception of Biotechnology in Nepal: A Preliminary Survey</div>
+          <div class="pub-authors">BioCrest Research Division</div>
+          <div class="pub-journal">BioCrest Consortium Research Notes</div>
+          <div class="pub-dl">↓ Download PDF</div>
+        </div>
+      </div>
+      <div class="pub-item" data-type="workshop" onclick="notify('Opening workshop materials...')">
+        <div class="pub-year">2024</div>
+        <div class="pub-body">
+          <div class="pub-type">Workshop Materials</div>
+          <div class="pub-title">Introduction to CRISPR: Workshop Resource Pack</div>
+          <div class="pub-authors">BioCrest Education Team</div>
+          <div class="pub-journal">Biotechnology Education Workshop Series</div>
+          <div class="pub-dl">↓ Download ZIP</div>
+        </div>
+      </div>
+      <div class="pub-item" data-type="report" onclick="notify('Opening report...')">
+        <div class="pub-year">2024</div>
+        <div class="pub-body">
+          <div class="pub-type">Impact Report</div>
+          <div class="pub-title">Youth Scientific Literacy Initiative: Mid-Term Impact Assessment</div>
+          <div class="pub-authors">BioCrest Programs Team</div>
+          <div class="pub-journal">BioCrest Consortium Program Reports</div>
+          <div class="pub-dl">↓ Download PDF</div>
+        </div>
+      </div>
+      <div class="pub-item" data-type="article" onclick="notify('Opening article...')">
+        <div class="pub-year">2024</div>
+        <div class="pub-body">
+          <div class="pub-type">Explainer Article</div>
+          <div class="pub-title">Understanding Antimicrobial Resistance: A Guide for Nepali Communities</div>
+          <div class="pub-authors">BioCrest Public Health Division</div>
+          <div class="pub-journal">BioCrest Consortium Community Series</div>
+          <div class="pub-dl">↓ Download PDF</div>
+        </div>
+      </div>
+      <div class="pub-item" data-type="brief" onclick="notify('Opening brief...')">
+        <div class="pub-year">2023</div>
+        <div class="pub-body">
+          <div class="pub-type">Founding Brief</div>
+          <div class="pub-title">BioCrest Consortium: Vision, Mission, and Strategic Framework 2023–2030</div>
+          <div class="pub-authors">BioCrest Founding Team</div>
+          <div class="pub-journal">BioCrest Consortium Founding Document</div>
+          <div class="pub-dl">↓ Download PDF</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ TEAM PAGE ══════════════ -->
+<div class="page" id="page-team">
+  <div class="sub-hero">
+    <div class="sub-hero-grid"></div>
+    <div class="sub-hero-mountain"></div>
+    <div class="badge">Our People</div>
+    <h1>The<br><em style="color:var(--gold);font-style:italic">Team</em></h1>
+    <p>Youth scientists, health advocates, and science communicators united by a singular vision.</p>
+  </div>
+  <div class="section">
+    <div class="tab-bar reveal">
+      <button class="tab-btn active" onclick="switchTab('team','leadership',this)">Leadership</button>
+      <button class="tab-btn" onclick="switchTab('team','research',this)">Research Division</button>
+      <button class="tab-btn" onclick="switchTab('team','outreach',this)">Outreach &amp; Education</button>
+    </div>
+    <div id="tab-team-leadership" class="tab-pane active">
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="tc-photo" style="background:linear-gradient(135deg,var(--forest),var(--forest-mid))">
+            <div class="tc-initials">BC</div>
+            <div class="tc-overlay">
+              <div class="tc-social">
+                <a class="tc-social-btn" href="https://www.linkedin.com/company/biocrestconsortium/" target="_blank" title="LinkedIn">in</a>
+              </div>
+              <button class="tc-view" onclick="showModal('BioCrest Consortium','Founder &amp; Director General','Nepal','The founding vision and executive leadership of BioCrest Consortium. The Founder established BioCrest as a platform to empower Nepali youth in scientific inquiry, public health advocacy, and biotechnology education.','BC',['Scientific Leadership','Vision &amp; Strategy','Global Health','Science Policy'])">View Profile</button>
+            </div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-name">Founder</div>
+            <div class="tc-role">Director General</div>
+            <div class="tc-tags">
+              <span class="tc-tag">Leadership</span>
+              <span class="tc-tag">Biotechnology</span>
+              <span class="tc-tag">Public Health</span>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="tc-photo" style="background:linear-gradient(135deg,var(--teal),#0d4a52)">
+            <div class="tc-initials">RD</div>
+            <div class="tc-overlay">
+              <div class="tc-social">
+                <a class="tc-social-btn" href="https://www.linkedin.com/company/biocrestconsortium/" target="_blank" title="LinkedIn">in</a>
+              </div>
+              <button class="tc-view" onclick="showModal('Research Director','Head of Research Division','BioCrest Consortium, Nepal','Oversees all research programs, publication efforts, and scientific quality assurance across BioCrest\'s seven research domains. Coordinates the research fellowship pipeline and external collaborations.','RD',['Research Management','Epidemiology','Scientific Writing','Collaboration'])">View Profile</button>
+            </div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-name">Research Director</div>
+            <div class="tc-role">Head of Research</div>
+            <div class="tc-tags">
+              <span class="tc-tag">Epidemiology</span>
+              <span class="tc-tag">Research</span>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="tc-photo" style="background:linear-gradient(135deg,var(--bronze),#7a5e38)">
+            <div class="tc-initials">PD</div>
+            <div class="tc-overlay">
+              <div class="tc-social">
+                <a class="tc-social-btn" href="https://www.linkedin.com/company/biocrestconsortium/" target="_blank" title="LinkedIn">in</a>
+              </div>
+              <button class="tc-view" onclick="showModal('Programs Director','Head of Education &amp; Outreach','BioCrest Consortium, Nepal','Leads the Youth Scientific Literacy Initiative, workshop series design, and community outreach programs. Manages relationships with schools, colleges, and partner institutions across Nepal.','PD',['Education Design','Outreach','Community Health','Workshop Facilitation'])">View Profile</button>
+            </div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-name">Programs Director</div>
+            <div class="tc-role">Head of Education</div>
+            <div class="tc-tags">
+              <span class="tc-tag">Education</span>
+              <span class="tc-tag">Outreach</span>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="tc-photo" style="background:linear-gradient(135deg,#2d5a3d,var(--forest))">
+            <div class="tc-initials">CD</div>
+            <div class="tc-overlay">
+              <div class="tc-social">
+                <a class="tc-social-btn" href="https://www.linkedin.com/company/biocrestconsortium/" target="_blank" title="LinkedIn">in</a>
+              </div>
+              <button class="tc-view" onclick="showModal('Communications Director','Head of Digital &amp; Communications','BioCrest Consortium, Nepal','Manages BioCrest\'s digital presence, LinkedIn communications, content strategy, and science communication outputs. Oversees the visual identity, newsletter, and all public-facing media.','CD',['Science Communication','Digital Media','Content Strategy','LinkedIn'])">View Profile</button>
+            </div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-name">Communications Director</div>
+            <div class="tc-role">Digital &amp; Communications</div>
+            <div class="tc-tags">
+              <span class="tc-tag">Communications</span>
+              <span class="tc-tag">Digital Media</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-team-research" class="tab-pane">
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="tc-photo" style="background:linear-gradient(135deg,var(--forest-mid),var(--teal))">
+            <div class="tc-initials">BT</div>
+            <div class="tc-overlay">
+              <button class="tc-view" onclick="showModal('Biotechnology Lead','Senior Research Member','BioCrest Consortium','Leads the Biotechnology &amp; Genetic Engineering domain, coordinates CRISPR workshops, and manages biotech educational content. Passion for making gene-editing concepts accessible to Nepali youth.','BT',['CRISPR','Genetic Engineering','Molecular Biology','Science Education'])">View Profile</button>
+            </div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-name">Biotechnology Lead</div>
+            <div class="tc-role">Genetics &amp; Biotech</div>
+            <div class="tc-tags"><span class="tc-tag">CRISPR</span><span class="tc-tag">Genetics</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="tc-photo" style="background:linear-gradient(135deg,#1a3d50,var(--teal))">
+            <div class="tc-initials">EL</div>
+            <div class="tc-overlay">
+              <button class="tc-view" onclick="showModal('Epidemiology Lead','Research Member','BioCrest Consortium','Coordinates epidemiological research activities, manages Nepal disease surveillance data, and contributes to the AMR Awareness Campaign. Specializes in infectious disease dynamics in mountain populations.','EL',['Epidemiology','Disease Surveillance','AMR','Data Analysis'])">View Profile</button>
+            </div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-name">Epidemiology Lead</div>
+            <div class="tc-role">Epidemiology &amp; Disease</div>
+            <div class="tc-tags"><span class="tc-tag">Epidemiology</span><span class="tc-tag">AMR</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="tc-photo" style="background:linear-gradient(135deg,var(--forest),#3a2a0a)">
+            <div class="tc-initials">GH</div>
+            <div class="tc-overlay">
+              <button class="tc-view" onclick="showModal('Global Health Lead','Research Member','BioCrest Consortium','Focuses on global health policy, SDG health targets, and international health frameworks. Analyzes Nepal\'s position within WHO and UN health architectures and advocates for youth-inclusive health policy.','GH',['Global Health Policy','SDGs','WHO Frameworks','Health Diplomacy'])">View Profile</button>
+            </div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-name">Global Health Lead</div>
+            <div class="tc-role">Global Health Policy</div>
+            <div class="tc-tags"><span class="tc-tag">Global Health</span><span class="tc-tag">Policy</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="tc-photo" style="background:linear-gradient(135deg,#1e3a5f,#0a2a3d)">
+            <div class="tc-initials">DH</div>
+            <div class="tc-overlay">
+              <button class="tc-view" onclick="showModal('Digital Health Lead','Research Member','BioCrest Consortium','Explores the intersection of AI, machine learning, and healthcare delivery in resource-limited settings. Working on applying digital tools to Nepal\'s rural health challenges.','DH',['AI in Healthcare','Digital Health','Machine Learning','Telemedicine'])">View Profile</button>
+            </div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-name">Digital Health Lead</div>
+            <div class="tc-role">AI &amp; Digital Health</div>
+            <div class="tc-tags"><span class="tc-tag">AI Health</span><span class="tc-tag">Digital</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-team-outreach" class="tab-pane">
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="tc-photo" style="background:linear-gradient(135deg,#3a1a0a,var(--bronze))">
+            <div class="tc-initials">SL</div>
+            <div class="tc-overlay">
+              <button class="tc-view" onclick="showModal('Science Literacy Lead','Outreach Member','BioCrest Consortium','Designs and delivers the Youth Scientific Literacy Initiative curriculum across partner schools and colleges. Creates engaging science communication materials in both Nepali and English.','SL',['Science Communication','Curriculum Design','Teaching','Youth Engagement'])">View Profile</button>
+            </div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-name">Science Literacy Lead</div>
+            <div class="tc-role">Education &amp; Curriculum</div>
+            <div class="tc-tags"><span class="tc-tag">Education</span><span class="tc-tag">Communication</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="tc-photo" style="background:linear-gradient(135deg,#2a1a3d,#4a2a6d)">
+            <div class="tc-initials">AM</div>
+            <div class="tc-overlay">
+              <button class="tc-view" onclick="showModal('AMR Campaign Lead','Outreach Member','BioCrest Consortium','Spearheads the Antimicrobial Resistance Awareness Campaign, developing Nepali-language materials, coordinating with pharmacists, and training community health workers across targeted districts.','AM',['AMR Advocacy','Campaign Management','Health Communication','Community Outreach'])">View Profile</button>
+            </div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-name">AMR Campaign Lead</div>
+            <div class="tc-role">Advocacy &amp; Campaigns</div>
+            <div class="tc-tags"><span class="tc-tag">AMR</span><span class="tc-tag">Advocacy</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ NEWS PAGE ══════════════ -->
+<div class="page" id="page-news">
+  <div class="sub-hero">
+    <div class="sub-hero-grid"></div>
+    <div class="sub-hero-mountain"></div>
+    <div class="badge">Latest Updates</div>
+    <h1>News &amp;<br><em style="color:var(--gold);font-style:italic">Insights</em></h1>
+    <p>Discoveries, announcements, and scientific insights from BioCrest Consortium and the global health science community.</p>
+  </div>
+  <div class="section">
+    <div class="tab-bar reveal">
+      <button class="tab-btn active" onclick="switchTab('news','all',this)">All</button>
+      <button class="tab-btn" onclick="switchTab('news','biotech',this)">Biotechnology</button>
+      <button class="tab-btn" onclick="switchTab('news','health',this)">Public Health</button>
+      <button class="tab-btn" onclick="switchTab('news','youth',this)">Youth Innovation</button>
+    </div>
+    <div id="tab-news-all" class="tab-pane active">
+      <div class="news-grid reveal">
+        <div class="news-card" onclick="notify('Opening full article...')">
+          <div class="news-img"><div class="insight-img-pattern"></div><div class="news-img-num">01</div></div>
+          <div class="news-body">
+            <div class="news-cat">● Biotechnology</div>
+            <div class="news-title">CRISPR Ethics in South Asian Context: A BioCrest Perspective</div>
+            <p class="news-excerpt">A deep-dive into how gene-editing technology must be evaluated through South Asian ethical, cultural, and biosafety lenses.</p>
+            <div class="news-date">May 15, 2025</div>
+          </div>
+        </div>
+        <div class="news-card" onclick="notify('Opening full article...')">
+          <div class="news-img" style="background:var(--forest-mid)"><div class="insight-img-pattern"></div><div class="news-img-num">02</div></div>
+          <div class="news-body">
+            <div class="news-cat">● Public Health</div>
+            <div class="news-title">AMR Campaign Phase 2 Launches in Lalitpur and Bhaktapur</div>
+            <p class="news-excerpt">BioCrest's antimicrobial resistance campaign expands to two additional districts with new community health worker training modules.</p>
+            <div class="news-date">April 28, 2025</div>
+          </div>
+        </div>
+        <div class="news-card" onclick="notify('Opening full article...')">
+          <div class="news-img" style="background:var(--teal)"><div class="insight-img-pattern"></div><div class="news-img-num">03</div></div>
+          <div class="news-body">
+            <div class="news-cat">● Youth Innovation</div>
+            <div class="news-title">500 Students Reached: Scientific Literacy Initiative Milestone</div>
+            <p class="news-excerpt">Our flagship education program hits a major landmark as we complete the spring semester workshop series.</p>
+            <div class="news-date">April 10, 2025</div>
+          </div>
+        </div>
+        <div class="news-card" onclick="notify('Opening full article...')">
+          <div class="news-img" style="background:var(--bronze)"><div class="insight-img-pattern"></div><div class="news-img-num">04</div></div>
+          <div class="news-body">
+            <div class="news-cat">● Research</div>
+            <div class="news-title">BioCrest Consortium Joins South Asian Health Network</div>
+            <p class="news-excerpt">A new regional collaboration opens pathways for joint research, shared data, and coordinated advocacy across South Asia.</p>
+            <div class="news-date">March 22, 2025</div>
+          </div>
+        </div>
+        <div class="news-card" onclick="notify('Opening full article...')">
+          <div class="news-img" style="background:var(--forest)"><div class="insight-img-pattern"></div><div class="news-img-num">05</div></div>
+          <div class="news-body">
+            <div class="news-cat">● Global Health</div>
+            <div class="news-title">Nepal's UHC Journey: Where Science Meets Policy</div>
+            <p class="news-excerpt">Analysis of Nepal's Universal Health Coverage progress, gaps, and the role of youth advocacy in accelerating reform.</p>
+            <div class="news-date">March 5, 2025</div>
+          </div>
+        </div>
+        <div class="news-card" onclick="notify('Opening full article...')">
+          <div class="news-img" style="background:#1e3a28"><div class="insight-img-pattern"></div><div class="news-img-num">06</div></div>
+          <div class="news-body">
+            <div class="news-cat">● Biotechnology</div>
+            <div class="news-title">Introduction to Bioinformatics: Free Workshop Recap</div>
+            <p class="news-excerpt">Recap and materials from our February bioinformatics workshop, introducing tools like BLAST, GenBank, and protein modeling to Nepali students.</p>
+            <div class="news-date">February 18, 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-news-biotech" class="tab-pane">
+      <div class="news-grid">
+        <div class="news-card" onclick="notify('Opening article...')">
+          <div class="news-img"><div class="insight-img-pattern"></div><div class="news-img-num">01</div></div>
+          <div class="news-body"><div class="news-cat">● Biotechnology</div><div class="news-title">CRISPR Ethics in South Asian Context</div><p class="news-excerpt">A BioCrest perspective on gene-editing technology evaluated through local ethical and biosafety lenses.</p><div class="news-date">May 15, 2025</div></div>
+        </div>
+        <div class="news-card" onclick="notify('Opening article...')">
+          <div class="news-img" style="background:#1e3a28"><div class="insight-img-pattern"></div><div class="news-img-num">06</div></div>
+          <div class="news-body"><div class="news-cat">● Biotechnology</div><div class="news-title">Introduction to Bioinformatics Workshop Recap</div><p class="news-excerpt">Materials from our bioinformatics workshop covering BLAST, GenBank, and protein modeling.</p><div class="news-date">February 18, 2025</div></div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-news-health" class="tab-pane">
+      <div class="news-grid">
+        <div class="news-card" onclick="notify('Opening article...')">
+          <div class="news-img" style="background:var(--forest-mid)"><div class="insight-img-pattern"></div><div class="news-img-num">02</div></div>
+          <div class="news-body"><div class="news-cat">● Public Health</div><div class="news-title">AMR Campaign Phase 2 Launches</div><p class="news-excerpt">Expansion of the AMR awareness campaign to two additional districts across Nepal.</p><div class="news-date">April 28, 2025</div></div>
+        </div>
+        <div class="news-card" onclick="notify('Opening article...')">
+          <div class="news-img" style="background:var(--forest)"><div class="insight-img-pattern"></div><div class="news-img-num">05</div></div>
+          <div class="news-body"><div class="news-cat">● Global Health</div><div class="news-title">Nepal's UHC Journey: Science Meets Policy</div><p class="news-excerpt">Analysis of Nepal's Universal Health Coverage progress and gaps.</p><div class="news-date">March 5, 2025</div></div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-news-youth" class="tab-pane">
+      <div class="news-grid">
+        <div class="news-card" onclick="notify('Opening article...')">
+          <div class="news-img" style="background:var(--teal)"><div class="insight-img-pattern"></div><div class="news-img-num">03</div></div>
+          <div class="news-body"><div class="news-cat">● Youth Innovation</div><div class="news-title">500 Students Reached: Literacy Initiative Milestone</div><p class="news-excerpt">Our flagship education program hits a major landmark completing the spring workshop series.</p><div class="news-date">April 10, 2025</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ CRESTA AI PAGE ══════════════ -->
+<div class="page ai-page" id="page-ai">
+  <div class="ai-hero">
+    <div class="sub-hero-grid"></div>
+    <div class="badge" style="border-color:rgba(198,161,91,0.3);color:var(--gold)">BioCrest AI Assistant</div>
+    <h1>Cresta <em style="color:var(--gold);font-style:italic">AI</em></h1>
+    <p>Your intelligent companion for scientific questions in biotechnology, public health, and global health science.</p>
+  </div>
+  <div class="ai-interface">
+    <div class="ai-chat-box">
+      <div class="ai-chat-header">
+        <div class="ai-status">
+          <div class="ai-dot"></div>
+          <span>Cresta AI — BioCrest Consortium</span>
+        </div>
+        <div class="ai-model">Powered by Claude · Anthropic</div>
+      </div>
+      <div class="ai-messages" id="ai-msgs">
+        <div class="ai-msg bot">
+          <div class="ai-msg-bubble">
+            Namaste 🙏 I'm <strong>Cresta</strong>, BioCrest Consortium's scientific AI assistant. I can help you understand biotechnology, public health, global health challenges, antimicrobial resistance, genetics, and scientific concepts relevant to Nepal and beyond.<br><br>What would you like to explore today?
+          </div>
+          <div class="ai-msg-time">Now · Cresta AI</div>
+        </div>
+      </div>
+      <div class="ai-input-row">
+        <input class="ai-input" id="ai-input" placeholder="Ask about CRISPR, AMR, global health, or anything scientific..." onkeydown="if(event.key==='Enter')sendAIMsg()">
+        <button class="ai-send" onclick="sendAIMsg()">Send →</button>
+      </div>
+    </div>
+    <div class="ai-prompts" style="margin-top:1.75rem">
+      <div class="ai-prompts-title">Suggested Prompts</div>
+      <div class="ai-prompt-chips">
+        <button class="ai-chip" onclick="setPrompt('Explain CRISPR-Cas9 in simple terms')">Explain CRISPR simply</button>
+        <button class="ai-chip" onclick="setPrompt('What is antimicrobial resistance and why does it matter for Nepal?')">What is AMR?</button>
+        <button class="ai-chip" onclick="setPrompt('What are the biggest global health challenges in Nepal?')">Nepal health challenges</button>
+        <button class="ai-chip" onclick="setPrompt('How does genetic engineering work?')">Genetic engineering basics</button>
+        <button class="ai-chip" onclick="setPrompt('What is universal health coverage and how close is Nepal?')">Universal health coverage</button>
+        <button class="ai-chip" onclick="setPrompt('Explain what epidemiology studies and why it matters')">What is epidemiology?</button>
+        <button class="ai-chip" onclick="setPrompt('What biotech careers can I pursue in Nepal?')">Biotech careers in Nepal</button>
+        <button class="ai-chip" onclick="setPrompt('What is the difference between genomics and genetics?')">Genomics vs genetics</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ ETHICS PAGE ══════════════ -->
+<div class="page" id="page-ethics">
+  <div class="sub-hero">
+    <div class="sub-hero-grid"></div>
+    <div class="sub-hero-mountain"></div>
+    <div class="badge">Our Principles</div>
+    <h1>Ethical<br><em style="color:var(--gold);font-style:italic">Framework</em></h1>
+    <p>The values and principles that guide every research initiative, publication, and community engagement at BioCrest Consortium.</p>
+  </div>
+  <div class="section">
+    <div class="about-layout" style="margin-bottom:4rem">
+      <div>
+        <span class="sec-tag reveal">Why Ethics Matter</span>
+        <h2 class="sec-title reveal">Science Without<br>Ethics is <em>Dangerous</em></h2>
+        <div class="divider reveal"></div>
+        <p class="reveal" style="font-size:15.5px;color:var(--text-mid);line-height:1.9;margin-bottom:1.25rem">At BioCrest Consortium, we believe that scientific advancement must be anchored in robust ethical principles. As a youth-led organization working at the intersection of biotechnology, public health, and community impact, we hold ourselves to the highest standards of scientific integrity, social responsibility, and transparent practice.</p>
+        <p class="reveal" style="font-size:15.5px;color:var(--text-mid);line-height:1.9">Our ethical framework is not a compliance checklist — it is the foundation of our identity as an institution that aspires to earn the trust of communities, collaborators, and the broader scientific world.</p>
+      </div>
+      <div>
+        <div class="quote-block reveal">
+          <p>"In science, integrity is not optional. It is the precondition of everything else."</p>
+          <cite>BioCrest Ethical Principles Charter, 2023</cite>
+        </div>
+        <div style="margin-top:2rem;padding:2rem;background:var(--ivory-warm);border-left:3px solid var(--teal)" class="reveal">
+          <p style="font-size:14px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--teal);margin-bottom:0.75rem">Our Commitment</p>
+          <p style="font-size:14.5px;color:var(--text-mid);line-height:1.85">BioCrest Consortium commits to evidence-based practice, honest representation of findings, inclusive and equitable science, community-centered research, and ongoing reflection on the ethical dimensions of biotechnology and health innovation.</p>
+        </div>
+      </div>
+    </div>
+    <div class="ethics-grid reveal">
+      <div class="ethics-card">
+        <div class="ethics-icon">🔬</div>
+        <div class="ethics-title">Scientific Integrity</div>
+        <p class="ethics-text">All research, publications, and public communications from BioCrest Consortium are grounded in verified, peer-reviewed evidence. We clearly distinguish between established science, emerging findings, and opinion. We correct errors openly and transparently.</p>
+      </div>
+      <div class="ethics-card">
+        <div class="ethics-icon">⚖️</div>
+        <div class="ethics-title">Evidence-Based Learning</div>
+        <p class="ethics-text">Our educational programs present science as a process of inquiry — not fixed dogma. We encourage critical thinking, scientific skepticism, and the ability to evaluate evidence — particularly in contexts of emerging biotechnology and health information.</p>
+      </div>
+      <div class="ethics-card">
+        <div class="ethics-icon">🌱</div>
+        <div class="ethics-title">Ethical Biotechnology Advocacy</div>
+        <p class="ethics-text">We engage with biotechnology — including CRISPR and genetic engineering — through a framework that acknowledges both promise and risk. We advocate for responsible innovation that considers biosafety, equity of access, ecological impact, and cultural context.</p>
+      </div>
+      <div class="ethics-card">
+        <div class="ethics-icon">🤝</div>
+        <div class="ethics-title">Inclusive &amp; Equitable Science</div>
+        <p class="ethics-text">BioCrest Consortium is committed to ensuring that the benefits of scientific literacy and biotechnology education reach underrepresented communities — including women in science, rural students, and first-generation science learners across Nepal.</p>
+      </div>
+      <div class="ethics-card">
+        <div class="ethics-icon">🏘️</div>
+        <div class="ethics-title">Community-Centered Research</div>
+        <p class="ethics-text">We engage communities as partners, not subjects. Our public health programs are developed with input from the communities they serve, and our research priorities reflect the actual health challenges facing Nepali people rather than purely academic agendas.</p>
+      </div>
+      <div class="ethics-card">
+        <div class="ethics-icon">🔒</div>
+        <div class="ethics-title">Transparency &amp; Accountability</div>
+        <p class="ethics-text">BioCrest Consortium maintains open records of its programs, funding, partnerships, and outcomes. We submit to peer review, welcome feedback, and hold our leadership accountable to the standards we publicly espouse. Transparency is non-negotiable.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ CONTACT PAGE ══════════════ -->
+<div class="page" id="page-contact">
+  <div class="sub-hero">
+    <div class="sub-hero-grid"></div>
+    <div class="sub-hero-mountain"></div>
+    <div class="badge">Connect With Us</div>
+    <h1>Contact<br><em style="color:var(--gold);font-style:italic">BioCrest</em></h1>
+    <p>Collaborators, researchers, educators, media, and students are all welcome to reach out.</p>
+  </div>
+  <div class="section">
+    <div class="contact-layout">
+      <div class="reveal">
+        <span class="sec-tag">Reach Out</span>
+        <h2 class="sec-title" style="font-size:40px">Let's Build<br><em>Together</em></h2>
+        <div class="divider"></div>
+        <p style="font-size:15px;color:var(--slate);line-height:1.85;margin-bottom:2rem">Whether you're a researcher seeking collaboration, an educator looking to partner, a student wanting to join, or a media professional covering science and health in Nepal — we want to hear from you.</p>
+        <div class="contact-detail">
+          <div class="cd-icon">📍</div>
+          <div>
+            <div class="cd-label">Location</div>
+            <div class="cd-val">Kathmandu, Nepal 🏔</div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="cd-icon">🌐</div>
+          <div>
+            <div class="cd-label">LinkedIn</div>
+            <div class="cd-val"><a href="https://www.linkedin.com/company/biocrestconsortium/" target="_blank" style="color:var(--teal)">BioCrest Consortium</a></div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="cd-icon">✉️</div>
+          <div>
+            <div class="cd-label">Email</div>
+            <div class="cd-val">info@biocrestconsortium.org</div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="cd-icon">🔬</div>
+          <div>
+            <div class="cd-label">Research Collaboration</div>
+            <div class="cd-val">research@biocrestconsortium.org</div>
+          </div>
+        </div>
+        <div style="margin-top:2rem">
+          <p style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);font-weight:600;margin-bottom:0.75rem">Follow Us</p>
+          <div class="social-row">
+            <a class="soc-btn" href="https://www.linkedin.com/company/biocrestconsortium/" target="_blank" title="LinkedIn — BioCrest Consortium">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a class="soc-btn" href="https://www.instagram.com/biocrestconsortium" target="_blank" title="Instagram">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a class="soc-btn" href="https://twitter.com/biocrestconsortium" target="_blank" title="X / Twitter">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a class="soc-btn" href="https://facebook.com/biocrestconsortium" target="_blank" title="Facebook">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div style="margin-top:2.5rem;padding:1.5rem;background:rgba(30,111,120,0.06);border-left:3px solid var(--teal)">
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--teal);margin-bottom:6px">Open to Collaboration</p>
+          <p style="font-size:14px;color:var(--slate);line-height:1.8">We welcome partnerships with academic institutions, healthcare organizations, NGOs, UN agencies, science media, and international youth networks aligned with our mission.</p>
+        </div>
+      </div>
+      <div class="contact-form reveal">
+        <h3>Send a Message</h3>
+        <div class="form-row">
+          <div class="fgroup">
+            <label>First Name</label>
+            <input type="text" id="f-fname" placeholder="Your first name">
+            <div class="ferr" id="err-fname">Required.</div>
+          </div>
+          <div class="fgroup">
+            <label>Last Name</label>
+            <input type="text" id="f-lname" placeholder="Your last name">
+            <div class="ferr" id="err-lname">Required.</div>
+          </div>
+        </div>
+        <div class="fgroup">
+          <label>Email Address</label>
+          <input type="email" id="f-email" placeholder="your@email.com">
+          <div class="ferr" id="err-email">Valid email required.</div>
+        </div>
+        <div class="fgroup">
+          <label>Organization / Institution</label>
+          <input type="text" id="f-org" placeholder="University, NGO, or personal">
+        </div>
+        <div class="fgroup">
+          <label>Inquiry Type</label>
+          <select id="f-type">
+            <option value="">Select inquiry type...</option>
+            <option>Research Collaboration</option>
+            <option>Educational Partnership</option>
+            <option>Media &amp; Press</option>
+            <option>Membership Inquiry</option>
+            <option>Funding / Grant</option>
+            <option>General Inquiry</option>
+          </select>
+          <div class="ferr" id="err-type">Please select a type.</div>
+        </div>
+        <div class="fgroup">
+          <label>Message</label>
+          <textarea id="f-msg" placeholder="Describe your inquiry, collaboration idea, or question in detail..."></textarea>
+          <div class="ferr" id="err-msg">Please write a message.</div>
+        </div>
+        <button class="form-submit" onclick="submitForm()">Send Message →</button>
+        <div class="form-success" id="form-ok">✓ Thank you. BioCrest Consortium will respond within 3–5 business days.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer id="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-logo" onclick="showPage('home')">
+        <div class="nav-brand-mark">BC</div>
+        <div class="nav-brand-name">Bio<em>Crest</em> Consortium</div>
+      </div>
+      <p>A Nepal-rooted, youth-led scientific consortium advancing biotechnology, public health, and scientific literacy — from the Himalayas to the global stage.</p>
+      <div class="footer-nepal">Kathmandu, Nepal · Est. 2023</div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('about')">About Us</a></li>
+        <li><a onclick="showPage('research')">Research</a></li>
+        <li><a onclick="showPage('projects')">Projects</a></li>
+        <li><a onclick="showPage('publications')">Publications</a></li>
+        <li><a onclick="showPage('team')">Team</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>More</h4>
+      <ul>
+        <li><a onclick="showPage('news')">News &amp; Insights</a></li>
+        <li><a onclick="showPage('ai')">Cresta AI</a></li>
+        <li><a onclick="showPage('ethics')">Ethical Principles</a></li>
+        <li><a onclick="showPage('contact')">Contact</a></li>
+        <li><a href="https://www.linkedin.com/company/biocrestconsortium/" target="_blank">LinkedIn ↗</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="https://www.linkedin.com/company/biocrestconsortium/" target="_blank">LinkedIn</a></li>
+        <li><a href="https://www.instagram.com/biocrestconsortium" target="_blank">Instagram</a></li>
+        <li><a href="https://twitter.com/biocrestconsortium" target="_blank">X / Twitter</a></li>
+        <li><a href="https://facebook.com/biocrestconsortium" target="_blank">Facebook</a></li>
+        <li><a onclick="showPage('contact')">Collaborate</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 BioCrest Consortium · Kathmandu, Nepal · All rights reserved.</div>
+    <div class="footer-soc">
+      <a class="footer-soc-btn" href="https://www.linkedin.com/company/biocrestconsortium/" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a class="footer-soc-btn" href="https://www.instagram.com/biocrestconsortium" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ════ CURSOR ════ */
+const ring = document.getElementById('cursor-ring');
+const dot  = document.getElementById('cursor-dot');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function animCursor(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animCursor);})();
+document.querySelectorAll('a,button,[onclick]').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+});
+
+/* ════ LOADER ════ */
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('loader').classList.add('hidden'),2200);
+});
+
+/* ════ DNA CANVAS ════ */
+(function(){
+  const c=document.getElementById('dna-canvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;initPts();}
+  function initPts(){pts=[];for(let i=0;i<120;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*0.4,vy:(Math.random()-.5)*0.4,r:Math.random()*1.8+0.8});}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(198,161,91,0.5)';ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
+      if(d<110){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
+        ctx.strokeStyle=`rgba(198,161,91,${0.18*(1-d/110)})`;ctx.lineWidth=0.6;ctx.stroke();}
+    }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);
+  resize();draw();
+})();
+
+/* ════ NAVBAR SCROLL ════ */
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
+});
+
+/* ════ NAVIGATION ════ */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const pg=document.getElementById('page-'+id);
+  if(pg){pg.classList.add('active');window.scrollTo({top:0,behavior:'instant'});}
+  const nav=document.getElementById('nav-'+id);
+  if(nav)nav.classList.add('active');
+  initReveal();
+  if(id==='projects')setTimeout(animProgressBars,300);
+  if(id==='home')setTimeout(initStats,500);
+}
+
+/* ════ REVEAL ════ */
+function initReveal(){
+  setTimeout(()=>{
+    document.querySelectorAll('.page.active .reveal').forEach((el,i)=>{
+      setTimeout(()=>el.classList.add('visible'),i*60);
+    });
+  },80);
+}
+initReveal();
+
+/* ════ STATS COUNT-UP ════ */
+function initStats(){
+  document.querySelectorAll('.stat-num').forEach(el=>{
+    const target=parseInt(el.dataset.target)||0;
+    const span=el.querySelector('span');
+    let current=0;
+    const step=Math.ceil(target/40);
+    const timer=setInterval(()=>{
+      current=Math.min(current+step,target);
+      span.textContent=current;
+      if(current>=target)clearInterval(timer);
+    },35);
+  });
+}
+
+/* ════ PROGRESS BARS ════ */
+function animProgressBars(){
+  document.querySelectorAll('.proj-progress-bar').forEach(b=>{
+    const w=b.style.width;b.style.width='0';
+    setTimeout(()=>b.style.width=w,100);
+  });
+}
+
+/* ════ TABS ════ */
+function switchTab(group,tab,el){
+  document.querySelectorAll('#page-'+group+' .tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#page-'+group+' .tab-pane').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  const pane=document.getElementById('tab-'+group+'-'+tab);
+  if(pane)pane.classList.add('active');
+}
+
+/* ════ PUBLICATIONS FILTER ════ */
+function filterPubs(type,btn){
+  document.querySelectorAll('.pub-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.pub-item').forEach(item=>{
+    item.style.display=(type==='all'||item.dataset.type===type)?'flex':'none';
+  });
+}
+
+/* ════ TEAM MODAL ════ */
+function showModal(name,role,affil,bio,initials,interests){
+  document.getElementById('modal-name').textContent=name;
+  document.getElementById('modal-role').innerHTML=role;
+  document.getElementById('modal-affil').textContent=affil;
+  document.getElementById('modal-bio').textContent=bio;
+  document.getElementById('modal-avatar').textContent=initials;
+  const int=document.getElementById('modal-interests');
+  int.innerHTML='';
+  interests.forEach(i=>{const s=document.createElement('span');s.className='modal-interest';s.innerHTML=i;int.appendChild(s);});
+  document.getElementById('modal').classList.add('active');
+}
+function closeModal(){document.getElementById('modal').classList.remove('active');}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+/* ════ NOTIFICATION ════ */
+function notify(msg){
+  const n=document.getElementById('notif');
+  n.textContent=msg; n.classList.add('show');
+  setTimeout(()=>n.classList.remove('show'),3000);
+}
+
+/* ════ CONTACT FORM ════ */
+function submitForm(){
+  let ok=true;
+  function check(id,errId,fn){
+    const el=document.getElementById(id);
+    const err=document.getElementById(errId);
+    const valid=fn(el.value);
+    err.style.display=valid?'none':'block';
+    el.style.borderColor=valid?'':'var(--error)';
+    if(!valid)ok=false;
+    el.addEventListener('input',()=>{err.style.display='none';el.style.borderColor='';},{once:true});
+  }
+  check('f-fname','err-fname',v=>v.trim().length>0);
+  check('f-lname','err-lname',v=>v.trim().length>0);
+  check('f-email','err-email',v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
+  check('f-type','err-type',v=>v!=='');
+  check('f-msg','err-msg',v=>v.trim().length>10);
+  if(!ok)return;
+  document.getElementById('form-ok').style.display='block';
+  ['f-fname','f-lname','f-email','f-org','f-type','f-msg'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.tagName==='SELECT'?el.selectedIndex=0:el.value='';
+  });
+  setTimeout(()=>document.getElementById('form-ok').style.display='none',6000);
+  notify('Message sent — BioCrest will respond soon.');
+}
+
+/* ════ CRESTA AI ════ */
+const aiKB={
+  crispr:"CRISPR-Cas9 is a revolutionary gene-editing tool that works like molecular scissors. The 'CRISPR' part is a guide RNA that finds a specific DNA sequence, and 'Cas9' is the protein that cuts the DNA at that location. Scientists can then delete, correct, or insert genetic material. It has enormous potential for treating genetic diseases, developing disease-resistant crops, and creating new therapies — though ethical guidelines around its use in human germlines remain essential.",
+  amr:"Antimicrobial resistance (AMR) occurs when bacteria, viruses, or fungi evolve mechanisms to resist the medicines designed to kill them. It is one of the most serious global health threats. In Nepal, AMR is worsened by over-the-counter antibiotic sales, incomplete treatment courses, and limited laboratory diagnostics. BioCrest's AMR Campaign specifically works to build community awareness and advocate for better antibiotic stewardship policies.",
+  nepal:"Nepal faces a range of complex public health challenges: communicable diseases like tuberculosis, typhoid, and dengue; rapidly rising non-communicable diseases (diabetes, hypertension, cancer); mental health gaps; air pollution in urban areas; and healthcare access disparities between Kathmandu and rural regions. Nepal has made significant progress in maternal and child health, but achieving UHC by 2030 requires major systemic investment and youth advocacy.",
+  genetics:"Genetics is the study of genes, heredity, and genetic variation in living organisms. DNA (deoxyribonucleic acid) carries the genetic blueprint. Genetics explains why traits are inherited, how genetic diseases arise, and how organisms evolve. Genomics is the broader study of an organism's complete DNA, while genetics often focuses on individual genes. Both are foundational to modern medicine, agriculture, and biotechnology.",
+  uhc:"Universal Health Coverage (UHC) means that all people receive the health services they need without financial hardship. Nepal has made progress through community health workers and free basic services, but significant gaps remain — especially in rural and mountain areas. BioCrest advocates for evidence-based health policy and youth engagement in UHC advocacy as part of the SDG 3 agenda.",
+  epidemiology:"Epidemiology is the study of how diseases occur and spread in populations. Epidemiologists analyze patterns, causes, and effects of health conditions to design public health interventions. It is foundational to outbreak response, health policy, vaccine programs, and disease prevention. In Nepal, epidemiological research is crucial for understanding infectious disease burden and guiding public health priorities.",
+  careers:"Nepal is building its biotech and health research ecosystem. Career paths include molecular biology, biotechnology research, public health, epidemiology, clinical medicine, global health policy, bioinformatics, and science communication. Many Nepali researchers collaborate with international institutions. BioCrest aims to prepare young Nepalis for these pathways through education, mentorship, and research experience.",
+  genomics:"Genomics studies the entire genome of an organism — all its DNA — while genetics typically focuses on individual genes. Genomics uses advanced sequencing technologies to analyze millions of DNA variations simultaneously. It underpins personalized medicine, drug development, and our understanding of disease. Genetics is like studying individual chapters; genomics is studying the entire library.",
+};
+
+function getAIResponse(msg){
+  const lower=msg.toLowerCase();
+  if(lower.includes('crispr')||lower.includes('gene edit')||lower.includes('genetic engineer'))return aiKB.crispr;
+  if(lower.includes('amr')||lower.includes('antibiotic')||lower.includes('antimicrobial')||lower.includes('resistance'))return aiKB.amr;
+  if(lower.includes('nepal')||lower.includes('himalay')||lower.includes('health challenge'))return aiKB.nepal;
+  if(lower.includes('genetics')||lower.includes('dna')||lower.includes('heredit'))return aiKB.genetics;
+  if(lower.includes('uhc')||lower.includes('universal health'))return aiKB.uhc;
+  if(lower.includes('epidem')||lower.includes('disease surveil')||lower.includes('outbreak'))return aiKB.epidemiology;
+  if(lower.includes('career')||lower.includes('job')||lower.includes('work'))return aiKB.careers;
+  if(lower.includes('genom'))return aiKB.genomics;
+  return "That's an excellent scientific question. BioCrest Consortium covers biotechnology, genetics, epidemiology, public health, global health policy, AMR, and digital health. Could you ask specifically about one of these areas? For example: CRISPR, antimicrobial resistance, Nepal's health challenges, genetics, epidemiology, or careers in biotech — I can give you a thorough, research-grounded answer on any of these.";
+}
+
+function addMsg(text,role){
+  const msgs=document.getElementById('ai-msgs');
+  const div=document.createElement('div');
+  div.className='ai-msg '+role;
+  const now=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  div.innerHTML=`<div class="ai-msg-bubble">${text}</div><div class="ai-msg-time">${now} · ${role==='user'?'You':'Cresta AI'}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function showTyping(){
+  const msgs=document.getElementById('ai-msgs');
+  const div=document.createElement('div');
+  div.className='ai-msg bot'; div.id='ai-typing';
+  div.innerHTML='<div class="ai-msg-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function sendAIMsg(){
+  const inp=document.getElementById('ai-input');
+  const txt=inp.value.trim();
+  if(!txt)return;
+  addMsg(txt,'user'); inp.value='';
+  showTyping();
+  const delay=800+Math.random()*1000;
+  setTimeout(async()=>{
+    document.getElementById('ai-typing')?.remove();
+    try{
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          model:'claude-sonnet-4-20250514',
+          max_tokens:1000,
+          system:'You are Cresta, the AI assistant for BioCrest Consortium — a Nepal-rooted, youth-led scientific consortium focused on biotechnology, public health, global health, AMR, and scientific literacy. You answer scientific questions with the depth of a knowledgeable researcher while being accessible to students. Keep responses 2-4 paragraphs. Always be accurate, grounded, and encouraging.',
+          messages:[{role:'user',content:txt}]
+        })
+      });
+      const data=await res.json();
+      const reply=data.content?.map(b=>b.text||'').join('')||getAIResponse(txt);
+      addMsg(reply,'bot');
+    }catch(e){
+      addMsg(getAIResponse(txt),'bot');
+    }
+  },delay);
+}
+
+function setPrompt(text){
+  document.getElementById('ai-input').value=text;
+  document.getElementById('ai-input').focus();
+}
+
+/* ════ MOBILE NAV ════ */
+function toggleMobileNav(){
+  notify('Use the full navigation on desktop. Mobile nav coming soon.');
+}
+
+/* ════ ON LOAD ════ */
+window.addEventListener('load',()=>{
+  initStats();
+  initReveal();
+  animProgressBars();
+});
+</script>
+</body>
+</html>
